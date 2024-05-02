@@ -1,0 +1,129 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfControlLibrary2.Elements"
+             x:Class="WpfControlLibrary2.Elements.Button1"
+             mc:Ignorable="d" 
+             MinWidth="34" MinHeight="34">
+    <Grid Margin="2">
+        <Border x:Name="border" Margin="0,0,0,0"  RenderTransformOrigin="0.5 0.5"  CornerRadius="8" Background="#00ABE4"  MouseEnter="border_MouseEnter" MouseLeave="border_MouseLeave">
+            <Border.RenderTransform>
+                <ScaleTransform ScaleX="1" ScaleY="1"/>
+            </Border.RenderTransform>
+            <Border.Triggers>
+                <EventTrigger  RoutedEvent="UIElement.MouseEnter" >
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.025" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.025" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger  RoutedEvent="UIElement.MouseDown" >
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="0.95" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="0.95" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger  RoutedEvent="UIElement.MouseUp" >
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.05" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.05" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger  RoutedEvent="UIElement.MouseLeave" >
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:.4">
+                                <DoubleAnimation.EasingFunction>
+                                    <QuarticEase />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
+            <Grid>
+                <Border VerticalAlignment="Center" HorizontalAlignment="Center" Width="20" Height="20" Margin="0,0,0,0" BorderThickness="0">
+                    <Border.Background>
+                        <ImageBrush  x:Name="crossimg" ImageSource="/WpfControlLibrary2;component/Images/error.png" Stretch="Uniform" Opacity="0"/>
+                    </Border.Background>
+                </Border>
+                <TextBlock x:Name="Text" VerticalAlignment="Center"  Margin="10,0,10,0" HorizontalAlignment="Center" Text="Test"  TextWrapping="Wrap" FontWeight="Bold" FontSize="14" Foreground="Black" RenderTransformOrigin="0.5 0.5">
+                    <TextBlock.RenderTransform>
+                        <ScaleTransform ScaleX="1" ScaleY="1"/>
+                    </TextBlock.RenderTransform>
+                    <TextBlock.Triggers>
+                        <EventTrigger  RoutedEvent="UIElement.MouseEnter" >
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1.005" Duration="0:0:.4">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1.005" Duration="0:0:.4">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                        <EventTrigger  RoutedEvent="UIElement.MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX" To="1" Duration="0:0:.4">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY" To="1" Duration="0:0:.4">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </TextBlock.Triggers>
+                </TextBlock>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="WpfControlLibrary2.Elements.ImageBrowser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfControlLibrary2.Elements"
+             mc:Ignorable="d" 
+             Height="200" Width="160">
+    <Grid >
+        <Border Background="#FFD7D7D7" CornerRadius="13">
+            <Grid x:Name="parrent">
+                <Border Background="White" CornerRadius="10"  VerticalAlignment="Top" Margin="5" x:Name="imgBorder">
+                    <Image x:Name="img" Source="/Images/img1.png" Stretch="Fill"/>
+                </Border>
+
+            </Grid>
+
+        </Border>
+    </Grid>
+</UserControl>
