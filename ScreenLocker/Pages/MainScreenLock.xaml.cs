@@ -35,7 +35,7 @@ namespace ScreenLocker.Pages
 
         private async void LogInClick(object sender, RoutedEventArgs e)
         {
-            User curUser = Moodle.ConvertJsonToUser(await Moodle.Authenticate(Login.Text, Password.Password));
+            User curUser = Moodle.ConvertJsonToUser(await Moodle.Authenticate(Login.GetText(), Password.GetText()));
             if (curUser.Validate())
             {
                 MainWindow.Blocking = false;

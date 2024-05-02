@@ -84,7 +84,7 @@
                         <ImageBrush  x:Name="crossimg" ImageSource="/WpfControlLibrary2;component/Images/error.png" Stretch="Uniform" Opacity="0"/>
                     </Border.Background>
                 </Border>
-                <TextBlock x:Name="Text" VerticalAlignment="Center"  Margin="10,0,10,0" HorizontalAlignment="Center" Text="Test"  TextWrapping="Wrap" FontWeight="Bold" FontSize="14" Foreground="Black" RenderTransformOrigin="0.5 0.5">
+                <TextBlock x:Name="Text" VerticalAlignment="Center"  Margin="10,0,10,0" HorizontalAlignment="Center" Text="Test"  TextWrapping="Wrap" FontWeight="Bold" FontSize="14" Foreground="White" RenderTransformOrigin="0.5 0.5">
                     <TextBlock.RenderTransform>
                         <ScaleTransform ScaleX="1" ScaleY="1"/>
                     </TextBlock.RenderTransform>

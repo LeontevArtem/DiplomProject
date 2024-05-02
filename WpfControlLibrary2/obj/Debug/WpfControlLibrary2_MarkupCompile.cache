@@ -4,7 +4,7 @@
 library
 C#
 .cs
-E:\ModulesC#\WpfControlLibrary2\obj\Debug\
+E:\Diplom-Client\WpfControlLibrary2\obj\Debug\
 WpfControlLibrary2
 none
 false
@@ -12,9 +12,9 @@ DEBUG;TRACE
 
 71383020002
 
-11-501530414
+101871658761
 14-680038984
 Elements\Button1.xaml;Elements\ImageBrowser.xaml;Elements\PasswordBox1.xaml;Elements\SidePanel1.xaml;Elements\Switch1.xaml;Elements\TextBox1.xaml;Styles\ComboBox.xaml;
 
-True
+False
 

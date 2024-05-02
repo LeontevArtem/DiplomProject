@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ScreenLocker
 {
@@ -40,12 +41,23 @@ namespace ScreenLocker
             InitializeComponent();
             Runing = true;
             Blocking = true;
+            if (CheckDB())
+            {
+                DataMonitorThread.Start();//Запуск процесса сбора данных
+                ShowLockScreens(); // Блокировка
+                Lock.SetTaskManager(false);// Отключение диспетчера задач
+            }
+            else System.Windows.MessageBox.Show("Не удалось подключиться к базе данных");
 
-
-            DataMonitorThread.Start();//Запуск процесса сбора данных
-            ShowLockScreens(); // Блокировка
-            Lock.SetTaskManager(false);// Отключение диспетчера задач
         }
+
+        public bool CheckDB()
+        {
+            
+            System.Data.DataTable Check = Common.DataBase.MsSQL.Query($"SELECT GETDATE()", MainWindow.ConnectionString);
+            return (DateTime.Parse(Check.Rows[0][0].ToString().Split(" ")[0]) == DateTime.Now.Date);
+        }
+
 
         /// <summary>
         /// Сбор данных по процессам
