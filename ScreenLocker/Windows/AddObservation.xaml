@@ -4,9 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ScreenLocker.Windows"
+        xmlns:uc ="clr-namespace:WpfControlLibrary2.Elements;assembly=WpfControlLibrary2"
         mc:Ignorable="d"
-        Title="AddObservation" Height="450" Width="800">
-    <Grid>
+        Title="Добавить заметку о рабочем месте" Height="450" Width="800" WindowStyle="ToolWindow">
+    <Border Background="#FFF3F4F6">
+        <Grid>
+            <Label Content="Есть ли замечания по поводу рабочего места?" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Margin="10,5,0,0" Height="40" VerticalContentAlignment="Center"/>
+            <TextBox x:Name="Data" Margin="10,50,10,55" ScrollViewer.CanContentScroll="True" SpellCheck.IsEnabled="True" TextWrapping="Wrap" AcceptsTab="True" Language="ru-ru" AcceptsReturn="True"/>
+            <uc:Button1 x:Name="Save"  VerticalAlignment="Bottom" HorizontalAlignment="Left" XAMLText="Записать" Margin="10" MouseDown="Save_MouseDown"/>
+        </Grid>
         
-    </Grid>
+    </Border>
 </Window>

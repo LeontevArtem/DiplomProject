@@ -30,7 +30,7 @@ namespace ScreenLocker.Pages
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-            if (MainWindow.Blocking) this.SourceInitialized += Window1_SourceInitialized;// Для перехвата события перетаскивания
+            this.SourceInitialized += Window1_SourceInitialized;// Для перехвата события перетаскивания
         }
 
         private async void LogInClick(object sender, RoutedEventArgs e)
@@ -51,15 +51,11 @@ namespace ScreenLocker.Pages
                 curUser.StartSession();
                 MsSQL.WriteLogToDataBase(curUser.SessionID,$"Сессия {curUser.SessionID} начата пользоватлем {curUser.firstname} в {DateTime.Now.ToShortTimeString()} ({DateTime.Now.ToShortDateString()})");
                 MsSQL.WriteLogToDataBase(curUser.SessionID, $"Список процессов на начало сессии: {JsonSerializer.Serialize(MainWindow.processes)}");
-                //Window AddObsrvationWindow = new Windows.AddObservation();
-                //AddObsrvationWindow.Show();
+                new Windows.AddObservation(mainWindow).Show();
             }
             else System.Windows.MessageBox.Show("Неверный логин или пароль");
 
         }
-
-
-
 
         /// <summary>
         /// Обработчик нормального закрытия

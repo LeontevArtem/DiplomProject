@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:ScreenLocker.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ScreenLock" Closing="Window_Closing"  Loaded="Window_Loaded" ShowInTaskbar="False" ResizeMode="NoResize" AllowDrop="False">
+      Title="LockScreen" Closing="Window_Closing"  Loaded="Window_Loaded" ShowInTaskbar="False" ResizeMode="NoResize" AllowDrop="False">
 
     <Grid Background="White">
         

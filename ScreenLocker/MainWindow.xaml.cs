@@ -39,10 +39,13 @@ namespace ScreenLocker
         public MainWindow()
         {
             InitializeComponent();
-            Runing = true;
-            Blocking = true;
+            
+            
             if (CheckDB())
             {
+                Lock.SetAutorunValue(true); // - Ля какая опасная штука
+                Runing = true;
+                Blocking = true;
                 DataMonitorThread.Start();//Запуск процесса сбора данных
                 ShowLockScreens(); // Блокировка
                 Lock.SetTaskManager(false);// Отключение диспетчера задач
@@ -53,7 +56,6 @@ namespace ScreenLocker
 
         public bool CheckDB()
         {
-            
             System.Data.DataTable Check = Common.DataBase.MsSQL.Query($"SELECT GETDATE()", MainWindow.ConnectionString);
             return (DateTime.Parse(Check.Rows[0][0].ToString().Split(" ")[0]) == DateTime.Now.Date);
         }
@@ -68,7 +70,7 @@ namespace ScreenLocker
             while (Runing)
             {
                 processes = dataMonitor.GetAllProcesses();
-                if(Blocking)Lock.getProc(); // - Сворачивание всех окон кроме LockScreen
+                if(Blocking) Lock.getProc(); // - Сворачивание всех окон кроме LockScreen
                 Thread.Sleep(100);
             }
         }
@@ -116,6 +118,7 @@ namespace ScreenLocker
         private void close_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.Runing = false;
+            MainWindow.Blocking = false;
             Common.LockFunctions.Lock.SetTaskManager(true);//Отменить блокировку сочетания клавиш
             Common.LockFunctions.Lock.ShowStartMenu();// Отменить блокировку меню Win
             System.Windows.Application.Current.Shutdown();

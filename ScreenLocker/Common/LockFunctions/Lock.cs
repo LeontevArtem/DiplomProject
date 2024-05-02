@@ -60,7 +60,68 @@ namespace ScreenLocker.Common.LockFunctions
                 }
             }
         }
-  
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        //private int m_hHook;
+        //private int m_hHook_1;
+        //private int m_hHook_2;
+        //private int m_hHook_3;
+        //private int m_hHook_4;
+        //private int m_hHook_5;
+        //private int m_hHook_6;
+        //public void Unhook()
+        //{
+        //    m_hHook = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_1 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_1, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_2 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_2, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_3 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_3, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_4 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_4, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_5 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_5, GetModuleHandle(IntPtr.Zero), 0);
+        //    m_hHook_6 = SetWindowsHookEx(WH_KEYBOARD_LL, m_callback_6, GetModuleHandle(IntPtr.Zero), 0);
+        //    UnhookWindowsHookEx(m_hHook);
+        //    UnhookWindowsHookEx(m_hHook_1);
+        //    UnhookWindowsHookEx(m_hHook_2);
+        //    UnhookWindowsHookEx(m_hHook_3);
+        //    UnhookWindowsHookEx(m_hHook_4);
+        //    UnhookWindowsHookEx(m_hHook_5);
+        //    UnhookWindowsHookEx(m_hHook_6);
+        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="autorun"></param>
+        /// <returns></returns>
+        public static bool SetAutorunValue(bool autorun)
+        {
+            string name = "ScreenLocker";//Application name
+            string ExePath = System.Windows.Forms.Application.ExecutablePath;//Current path
+                                                                             //of application execution
+            RegistryKey reg;//Class for working with Windows registry
+            reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\");//Subkey creating in registry
+            try
+            {
+                if (autorun)
+                {
+                    reg.SetValue(name, ExePath);//If success - then set an autoran key values
+                                                //according to this application
+                }
+                else
+                {
+                    reg.DeleteValue(name);//If failed - delete a created key
+                }
+                reg.Close();//Write data to registry and close it
+            }
+            catch
+            {
+                return false;//If exception (fail)
+            }
+            return true;//If success
+        }
+
+
         public static int LowLevelKeyboardProc(int nCode, int wParam, ref KBDLLHOOKSTRUCT lParam)
         {
             bool blnEat = false;

@@ -13,7 +13,7 @@ namespace ScreenLocker.Pages
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
-            if (MainWindow.Blocking) this.SourceInitialized += Window1_SourceInitialized;// Для перехвата события перетаскивания
+            this.SourceInitialized += Window1_SourceInitialized;// Для перехвата события перетаскивания
         }
 
         /// <summary>
