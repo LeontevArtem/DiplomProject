@@ -1,0 +1,28 @@
+﻿@model WorkplacesAccounting.Models.AuthModel
+@{
+    ViewData["Title"] = "Авторизация";
+}
+<html lang="en">
+    <div>
+        <head>
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        </head>
+        <div>
+            <div class="background"/>
+            <form asp-action="Index" asp-controller="Authorization">
+                <h3>Авторизация</h3>
+
+                <label for="username">Логин</label>
+                <input type="Login" asp-for="Login" placeholder="Логин или адрес электронной почты" id="username">
+
+                <label for="password">Пароль</label>
+                <input type="password" asp-for="Password" placeholder="Пароль" id="password">
+
+                <button class="AuthButton"  type="submit">Вход</button>
+            </form>
+        </div>
+    </div>
+</html>

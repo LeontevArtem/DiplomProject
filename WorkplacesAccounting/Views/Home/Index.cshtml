@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Список сессий";
+}
+@model WorkplacesAccounting.Models.HomeModel;
+<head>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="./css/Home.css" asp-append-version="true">
+</head>
+<h1 class="fancy">Активные сессии</h1>
+<div class="HomeContainer">
+    @{
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x =>x.Cabinet).Where(x=>x.EndTime==""))
+        {
+            <div class="card">
+
+                <div class="card__body">
+                <div class="tag__body">
+                        <span class="tag tag-green">Активная</span>
+                        <span class="tag tag-gray">@curSession.Cabinet</span>
+                </div>
+                    <h4>Сессия #@curSession.ID</h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!</p>
+                </div>
+                <div class="card__footer">
+                    <div class="user">
+                        <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
+                        <div class="user__info">
+                            <h5>@curSession.User.firstname</h5>
+                            <small>@curSession.User.cohort.Split(',')[0]</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+<h1 class="fancy">Завершенные сессии</h1>
+<div class="HomeContainer">
+    @{
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x => x.Cabinet).Where(x => x.EndTime != ""))
+        {
+            <div class="card">
+
+                <div class="card__body">
+                    <span class="tag tag-red">Завершенная</span>
+                    <span class="tag tag-gray">@curSession.Cabinet</span>
+                    <h4>Сессия #@curSession.ID</h4>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi perferendis molestiae non nemo doloribus. Doloremque, nihil! At ea atque quidem!</p>
+                </div>
+                <div class="card__footer">
+                    <div class="user">
+                        <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
+                        <div class="user__info">
+                            <h5>@curSession.User.firstname</h5>
+                            <small>@curSession.User.cohort.Split(',')[0]</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+
