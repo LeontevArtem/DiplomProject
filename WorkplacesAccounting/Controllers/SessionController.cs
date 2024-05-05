@@ -13,7 +13,7 @@ namespace WorkplacesAccounting.Controllers
             model.Session = Data.SessionsList.Find(x => x.ID==Convert.ToInt32(id));
             model.Logs = Data.LogList.Where(x => x.Session==model.Session).ToList();
 
-            return View();
+            return View(model);
         }
     }
 }

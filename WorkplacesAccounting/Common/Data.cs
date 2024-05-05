@@ -50,6 +50,8 @@ namespace WorkplacesAccounting.Common
                 NewLog.LogID = Convert.ToInt32(LogQuery.Rows[i][0]);
                 NewLog.Session = SessionsList.Find(x =>x.ID == Convert.ToInt32(LogQuery.Rows[i][1]));
                 NewLog.Data = Convert.ToString(LogQuery.Rows[i][2]);
+                NewLog.Date = Convert.ToString(LogQuery.Rows[i][3]);
+                NewLog.Tag = Convert.ToString(LogQuery.Rows[i][4]);
                 LogList.Add(NewLog);
             }
         }

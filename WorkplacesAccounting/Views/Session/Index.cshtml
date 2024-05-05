@@ -1,1 +1,77 @@
-﻿
+﻿@{
+    ViewData["Title"] = "Информация о сесии";
+}
+@model WorkplacesAccounting.Models.SessionModel;
+<div class="SessionContainer">
+    <h1 class="fancy">Информация о сессии #@Model.Session.ID</h1>
+    <div class="InfoContainer">
+        <div class="Row">
+            <h3>Имя пользователя: </h3>
+            <h5>@Model.Session.User.firstname @Model.Session.User.lastname</h5>
+            <hr/>
+            <h3>Дата начала: </h3>
+            <h5>@Model.Session.StartTime</h5>
+            <hr />
+            <h3>Дата окончания: </h3>
+            @{
+                if(Model.Session.EndTime!="")
+                {
+                    <h5>@Model.Session.EndTime</h5>
+                }
+                else
+                {
+                    <h5>Не окончена</h5>
+                }
+            }
+            <hr />
+            <h3>Замечания: </h3>
+            <h5>@Model.Session.Observation</h5>
+            <hr />
+            <div class="BtnContainer">
+                <button class="RegButton">Разлогинить</button>
+                <button class="RegButton">Вход</button>
+                <button class="RegButton">Вход</button>
+            </div>
+        </div>
+        <div class="Row">
+            <h3>Логи</h3>
+            <ul class="tree">
+                @{
+                    var GroupingByTag = Model.Logs.OrderBy(x => x.Date).GroupBy(x => x.Tag);
+                    // foreach (WorkplacesAccounting.Models.LogData curLog in Model.Logs.OrderBy(x =>x.Date))
+                    foreach (var GroupByTag in GroupingByTag)
+                    {
+                        <li>
+                            <details>
+                                <summary>@GroupByTag.Key</summary>
+                                <ul>
+                                    @{
+                                        var GroupingByDate = GroupByTag.GroupBy(x=>x.Date);
+                                        foreach (var GroupByDate in GroupingByDate)
+                                        {
+                                            <li>
+                                                <details>
+                                                    <summary>@GroupByDate.Key</summary>
+                                                    <ul>
+                                                        @{
+                                                            foreach (var log in GroupByDate)
+                                                            {
+                                                                <li>@log.Data</li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </details>
+                                            </li>
+                                        }
+                                        
+                                    }
+                                </ul>
+                            </details>
+                        </li>
+                    }
+                }
+            </ul>
+            
+        </div>
+    </div>
+</div>

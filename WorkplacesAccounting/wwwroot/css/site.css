@@ -31,7 +31,7 @@ body {
     top: 50%;
 }
 
-form {
+.AuthForm {
     height: 520px;
     width: 400px;
     background-color: rgba(0,0,0,0.87);
@@ -46,7 +46,7 @@ form {
     padding: 50px 35px;
 }
 
-    form * {
+    .AuthForm * {
         font-family: 'Poppins',sans-serif;
         color: #ffffff;
         letter-spacing: 0.5px;
@@ -54,21 +54,21 @@ form {
         border: none;
     }
 
-    form h3 {
+    .AuthForm h3 {
         font-size: 32px;
         font-weight: 500;
         line-height: 42px;
         text-align: center;
     }
 
-label {
+.AuthLabel {
     display: block;
     margin-top: 30px;
     font-size: 16px;
     font-weight: 500;
 }
 
-input {
+.AuthInput {
     display: block;
     height: 50px;
     width: 100%;
@@ -95,23 +95,6 @@ input {
     border-radius: 5px;
     cursor: pointer;
 }
-.fancy {
-    --b: 6px; /* control the border thickness */
-    --w: 80px; /* control the width of the line*/
-    --g: -10px; /* control the gap */
-    --c: #0B486B;
-    
-    padding: 0 1em;
-    line-height: 1.6em;
-    border: 1px solid;
-    color: #fff;
-    background: conic-gradient(from 45deg at left,var(--c) 25%,#0000 0) 0, conic-gradient(from -135deg at right,var(--c) 25%,#0000 0) 100%;
-    background-size: 51% 80%;
-    background-origin: border-box;
-    background-repeat: no-repeat;
-    border-image: linear-gradient( #0000 calc(50% - var(--b)/2), var(--c) 0 calc(50% + var(--b)/2), #0000 0) 1/0 var(--w)/calc(var(--w) + var(--g));
-    margin-inline:auto;
-}
 .HomeContainer {
     display: flex;
     flex-wrap: wrap;
@@ -124,7 +107,7 @@ input {
 .card {
     display: flex;
     flex-direction: column;
-    width: clamp(20rem, calc(20rem + 2vw), 22rem);
+    width: clamp(15rem, calc(15rem + 2vw), 17rem);
     overflow: hidden;
     box-shadow: 0 .1rem 1rem rgba(0, 0, 0, 0.1);
     border-radius: 1em;
@@ -210,3 +193,53 @@ input {
     text-decoration: none;
     color: black;
 }
+.SearchDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.SearchContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content:right;
+}
+.SearchBox{
+    margin: 0px 2% 0px 2%;
+    border-radius:5px;
+}
+.InfoContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+}
+.Row {
+    border-radius: 10px;
+    background-color: rgba(255,255,255,0.87);
+    width: 45%;
+
+    position: relative;
+    padding: 3%;
+    word-break: break-all;
+    height: fit-content;
+}
+
+.RegButton {
+    background: #0B486B;
+    color: #FFFFFF;
+    padding: 5px 5px;
+    font-size: 18px;
+    font-weight: 600;
+    border-width: 0px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+    .RegButton:hover {
+        background-color: #0C5596;
+    }
+    .RegButton:active {
+        background-color: #062A4A;
+    }
+
+
+
+

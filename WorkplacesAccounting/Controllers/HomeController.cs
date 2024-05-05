@@ -19,13 +19,18 @@ namespace WorkplacesAccounting.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string SearchString)
         {
             if (HttpContext.Session.GetString("UserGroup")!=null)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
             {
                 Data.LoadData();
                 Models.HomeModel model = new Models.HomeModel();
-                model.SessionsList = Data.SessionsList;
+                if (!String.IsNullOrEmpty(SearchString))
+                {
+                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname==SearchString||Convert.ToString(x.ID)==SearchString).ToList();
+                }
+                else model.SessionsList = Data.SessionsList;
+
                 return View(model);
             }
             return RedirectToAction("Index", "Authorization");
