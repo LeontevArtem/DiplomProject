@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using WorkplacesAccounting.Common;
 
 namespace WorkplacesAccounting.Models
 {
@@ -27,6 +28,18 @@ namespace WorkplacesAccounting.Models
             }
             catch { }
             return user;
+        }
+        public bool Validate()
+        {
+            return id != null;
+        }
+        public void SaveToDatabase()
+        {
+            System.Data.DataTable Check = MsSQL.Query($"SELECT * FROM [dbo].[Users] WHERE Username='{username}' AND Password='{password}'", Data.ConnectionString);
+            if (Check.Rows.Count == 0)
+            {
+                System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Users]([UserID],[Username],[Password],[Firstname],[Lastname],[email],[Groups]) VALUES('{id}','{username}','{password}','{firstname}','{lastname}','{email}','{cohort}') ", Data.ConnectionString);
+            }
         }
     }
 

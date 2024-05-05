@@ -18,8 +18,9 @@ namespace WorkplacesAccounting.Controllers
             if (ModelState.IsValid)
             {
                 User user = Models.User.ConvertJsonToUser(await Common.Moodle.Authenticate(model.Login,model.Password));
-                if (user != null) 
+                if (user.Validate()) 
                 {
+                    user.SaveToDatabase();
                     HttpContext.Session.SetString("UserId", user.id);
                     HttpContext.Session.SetString("UserGroup", user.cohort);
                     return RedirectToAction("Index", "Home"); 
