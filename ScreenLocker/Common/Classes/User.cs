@@ -33,11 +33,6 @@ namespace ScreenLocker.Common.Classes
                 System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Users]([UserID],[Username],[Password],[Firstname],[Lastname],[email],[Groups]) VALUES('{id}','{username}','{password}','{firstname}','{lastname}','{email}','{cohort}') ", MainWindow.ConnectionString);
             }
         }
-        public void StartSession()
-        {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO[dbo].[Sessions] ([UserID], [StartTime], [Observations])VALUES('{id}', '{DateTime.Now}', 'NULL'); SELECT SCOPE_IDENTITY();", MainWindow.ConnectionString);
-            SessionID = Convert.ToInt32(Insert.Rows[Insert.Rows.Count-1][0]);
-
-        }
+        
     }
 }

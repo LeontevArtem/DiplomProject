@@ -30,23 +30,24 @@ namespace ScreenLocker
         public static bool Runing;//Флаг, что программа запущена
         public static bool Blocking;// Флаг что надо блокировать все что только можно
 
-        public static List<string> processes;
-        public static User CurrentUser;//Текущий пользователь
+        public static Session CurrentSession;
         public static List<Window> screenLocks = new List<Window>();
         public static List<User> users = new List<User>();
-        Thread DataMonitorThread = new Thread(new ThreadStart(DataMonitoring));
+        public static List<Auditory> AuditoriesList = new List<Auditory>();
+        
 
         public MainWindow()
         {
             InitializeComponent();
-            
-            
+            LoadData();
+            CurrentSession = new Session();
             if (CheckDB())
             {
                 Lock.SetAutorunValue(true); // - Ля какая опасная штука
+                Hooks.SetHook();// - ЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯ ОПАСНОСТЬ
                 Runing = true;
                 Blocking = true;
-                DataMonitorThread.Start();//Запуск процесса сбора данных
+                
                 ShowLockScreens(); // Блокировка
                 Lock.SetTaskManager(false);// Отключение диспетчера задач
             }
@@ -60,20 +61,22 @@ namespace ScreenLocker
             return (DateTime.Parse(Check.Rows[0][0].ToString().Split(" ")[0]) == DateTime.Now.Date);
         }
 
+        public void LoadData()
+        {
+            System.Data.DataTable Auditories = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Auditory]", MainWindow.ConnectionString);
+            for (int i=0;i< Auditories.Rows.Count;i++)
+            {
+                Auditory auditory = new Auditory();
+                auditory.ID = Convert.ToInt32(Auditories.Rows[i][0]);
+                auditory.Name = Convert.ToString(Auditories.Rows[i][1]);
+                AuditoriesList.Add(auditory);
+            }
+        }
 
         /// <summary>
         /// Сбор данных по процессам
         /// </summary>
-        public static void DataMonitoring()
-        {
-            DataMonitor dataMonitor = new DataMonitor();
-            while (Runing)
-            {
-                processes = dataMonitor.GetAllProcesses();
-                if(Blocking) Lock.getProc(); // - Сворачивание всех окон кроме LockScreen
-                Thread.Sleep(100);
-            }
-        }
+        
         /// <summary>
         /// Отобразить незакрываемые экраны блокировки
         /// </summary>
@@ -119,6 +122,8 @@ namespace ScreenLocker
         {
             MainWindow.Runing = false;
             MainWindow.Blocking = false;
+            MainWindow.CurrentSession.EndSession();
+            Hooks.Unhook();
             Common.LockFunctions.Lock.SetTaskManager(true);//Отменить блокировку сочетания клавиш
             Common.LockFunctions.Lock.ShowStartMenu();// Отменить блокировку меню Win
             System.Windows.Application.Current.Shutdown();

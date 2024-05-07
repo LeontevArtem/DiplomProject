@@ -11,15 +11,23 @@ namespace ScreenLocker.Common.DataMonitoring
     public class DataMonitor
     {
         
-        public List<string> ProcessInfoList = new List<string>();
-        public List<string> GetAllProcesses()
+        public static List<string> GetAllProcesses()
         {
-            foreach (Process process in Process.GetProcesses())
+            //foreach (Process process in Process.GetProcesses().Where(p => p.MainWindowHandle != IntPtr.Zero && p.ProcessName != "explorer"))
+            //{
+            //    ProcessInfoList.Add(process.MainWindowTitle.ToString());
+            //}
+            //return ProcessInfoList;
+            List<string> ProcessInfoList = new List<string>();
+            ProcessWindow[] applications = ProcessHelper.GetRunningApplications();
+            foreach (ProcessWindow pw in applications)
             {
-                ProcessInfoList.Add(process.ProcessName.ToString());
+                ProcessInfoList.Add(pw.WindowTitle);
             }
             return ProcessInfoList;
         }
+
+
 
     }
 }

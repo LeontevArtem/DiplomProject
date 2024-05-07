@@ -31,31 +31,10 @@ namespace ScreenLocker.Pages
             InitializeComponent();
             this.mainWindow = mainWindow;
             this.SourceInitialized += Window1_SourceInitialized;// Для перехвата события перетаскивания
+            MainScreen.Navigate(new Pages.Login(mainWindow,this));
         }
 
-        private async void LogInClick(object sender, RoutedEventArgs e)
-        {
-            User curUser = Moodle.ConvertJsonToUser(await Moodle.Authenticate(Login.GetText(), Password.GetText()));
-            if (curUser.Validate())
-            {
-                MainWindow.Blocking = false;
-                Common.LockFunctions.Lock.ShowStartMenu();
-
-                foreach (Window screenLock in MainWindow.screenLocks)
-                {
-                    screenLock.Hide();
-                }
-                MainWindow.CurrentUser = curUser;
-                System.Windows.MessageBox.Show("Вы успешно авторизировались");
-                curUser.SaveToDatabase();
-                curUser.StartSession();
-                MsSQL.WriteLogToDataBase(curUser.SessionID,$"Сессия {curUser.SessionID} начата пользоватлем {curUser.firstname} в {DateTime.Now.ToShortTimeString()} ({DateTime.Now.ToShortDateString()})");
-                MsSQL.WriteLogToDataBase(curUser.SessionID, $"Список процессов на начало сессии: {JsonSerializer.Serialize(MainWindow.processes)}");
-                new Windows.AddObservation(mainWindow).Show();
-            }
-            else System.Windows.MessageBox.Show("Неверный логин или пароль");
-
-        }
+        
 
         /// <summary>
         /// Обработчик нормального закрытия
@@ -65,7 +44,7 @@ namespace ScreenLocker.Pages
         private void Close_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.Runing = false;
-            Common.LockFunctions.Lock.SetTaskManager(false);//Отменить блокировку сочетания клавиш
+            Common.LockFunctions.Lock.SetTaskManager(true);//Отменить блокировку сочетания клавиш
             Common.LockFunctions.Lock.ShowStartMenu();// Отменить блокировку меню Win
             System.Windows.Application.Current.Shutdown();
         }

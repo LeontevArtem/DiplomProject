@@ -15,17 +15,18 @@ namespace ScreenLocker.Common.DataBase
         public static DataTable Query(string selectSQL, string connectionString)
         {
             DataTable dataTable = new DataTable("database");
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandText = selectSQL;
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-            sqlDataAdapter.Fill(dataTable);
+            try
+            {
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandText = selectSQL;
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dataTable);
+            }
+            catch { }
             return dataTable;
         }
-        public static void WriteLogToDataBase(int SessionID,string Data)
-        {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Log]([SessionID],[Data])VALUES('{SessionID}','{Data}')", MainWindow.ConnectionString);
-        }
+        
     }
 }

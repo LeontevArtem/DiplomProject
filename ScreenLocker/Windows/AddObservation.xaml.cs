@@ -29,9 +29,9 @@ namespace ScreenLocker.Windows
 
         private void Save_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (Data.Text!="")
+            if (Data.Text!=String.Empty)
             {
-                MsSQL.WriteLogToDataBase(MainWindow.CurrentUser.SessionID, $"Сессия {MainWindow.CurrentUser.SessionID}. Добавлено замечание: \"{Data.Text}\"");
+                //MsSQL.WriteLogToDataBase(MainWindow.CurrentUser.SessionID, $"Сессия {MainWindow.CurrentUser.SessionID}. Добавлено замечание: \"{Data.Text}\"");
             }
             this.Close();
         }

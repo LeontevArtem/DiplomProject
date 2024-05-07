@@ -100,7 +100,7 @@ namespace ScreenLocker.Common.LockFunctions
             string ExePath = System.Windows.Forms.Application.ExecutablePath;//Current path
                                                                              //of application execution
             RegistryKey reg;//Class for working with Windows registry
-            reg = Registry.CurrentUser.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\");//Subkey creating in registry
+            reg = Registry.LocalMachine.CreateSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Run\\");//Subkey creating in registry
             try
             {
                 if (autorun)
@@ -120,7 +120,10 @@ namespace ScreenLocker.Common.LockFunctions
             }
             return true;//If success
         }
+        public static void SetRegistryKey(string Path,string Lalue)
+        {
 
+        }
 
         public static int LowLevelKeyboardProc(int nCode, int wParam, ref KBDLLHOOKSTRUCT lParam)
         {

@@ -3,26 +3,26 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:ScreenLocker.Pages"
+      xmlns:local="clr-namespace:ScreenLocker.Windows"
       xmlns:uc ="clr-namespace:WpfControlLibrary2.Elements;assembly=WpfControlLibrary2"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920 "
-      Title="LockScreen" Closing="Window_Closing"  Loaded="Window_Loaded" ShowInTaskbar="False" ResizeMode="NoResize" AllowDrop="False">
+      Title="LockScreen" Closing="Window_Closing"  Loaded="Window_Loaded" ShowInTaskbar="False" ResizeMode="NoResize" AllowDrop="False" WindowStyle="None">
 
     <Grid Background="#FFF3F4F6">
-        
-        <Button x:Name="Close" Content="Close" Width="100" Height="30" FontWeight="Bold" Click="Close_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
+        <Frame x:Name="MainScreen" NavigationUIVisibility="Hidden"/>
+        <!--<Button x:Name="Close" Content="Clos e" Width="100" Height="30" FontWeight="Bold" Click="Close_Click" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10"/>
         
         <Border VerticalAlignment="Center" HorizontalAlignment="Center" CornerRadius="10" Background="White" Padding="30" >
             <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="300">
-                <Image Width="200" Height="200" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/Pages/log(1).png"/>
+                <Image Width="200" Height="200" Margin="0,0,0,0" VerticalAlignment="Top" HorizontalAlignment="Center" Source="/Windows/log(1).png"/>
                 <Label Content="Логин" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,200,0,0"/>
                 <uc:TextBox1 x:Name="Login" VerticalAlignment="Top"  Margin="0,230,0,0" XAMLPlaceholder="mail@permaviat.ru"/>
                 <Label Content="Пароль" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,260,0,0"/>
                 <uc:PasswordBox1 x:Name="Password" VerticalAlignment="Top" Margin="0,290,0,50"/>
                 <uc:Button1 x:Name="LoginBtn" VerticalAlignment="Bottom" XAMLText="Войти" Margin="0,0,0,0" MouseDown="LogInClick"/>
             </Grid>
-        </Border>
+        </Border>-->
         
     </Grid>
 </Window>
