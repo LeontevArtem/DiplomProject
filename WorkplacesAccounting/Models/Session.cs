@@ -7,6 +7,6 @@
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public string Observation { get; set; }
-        public string Cabinet { get; set; }
+        public Auditory Auditory { get; set; }
     }
 }

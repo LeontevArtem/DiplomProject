@@ -27,11 +27,17 @@
             <h3>Замечания: </h3>
             <h5>@Model.Session.Observation</h5>
             <hr />
-            <div class="BtnContainer">
-                <button class="RegButton">Разлогинить</button>
-                <button class="RegButton">Вход</button>
-                <button class="RegButton">Вход</button>
-            </div>
+                <div class="BtnContainer">
+                    <form>
+                        <input type="hidden" value="@Model.Session.ID" name="id"/>
+                        <input class="RegButton" asp-controller="Session" asp-action="Test" value="Разлогинить" type="submit"/>
+                        <button class="RegButton">Кнопка</button>
+                        <button class="RegButton">Кнопка</button>
+                    </form>
+                    
+                </div>
+
+            
         </div>
         <div class="Row">
             <h3>Логи</h3>

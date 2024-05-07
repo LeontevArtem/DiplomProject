@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WorkplacesAccounting.Common;
 using WorkplacesAccounting.Models;
 
@@ -20,6 +23,13 @@ namespace WorkplacesAccounting.Controllers
                 User user = Models.User.ConvertJsonToUser(await Common.Moodle.Authenticate(model.Login,model.Password));
                 if (user.Validate()) 
                 {
+                    var claims = new List<Claim>
+                        {
+                            new Claim(ClaimsIdentity.DefaultNameClaimType, user.username)
+                        };
+                    ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+
                     user.SaveToDatabase();
                     HttpContext.Session.SetString("UserId", user.id);
                     HttpContext.Session.SetString("UserGroup", user.cohort);

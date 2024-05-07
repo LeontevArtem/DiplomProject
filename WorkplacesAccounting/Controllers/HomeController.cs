@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using WorkplacesAccounting.Common;
@@ -19,9 +20,10 @@ namespace WorkplacesAccounting.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Index(string SearchString)
         {
-            if (HttpContext.Session.GetString("UserGroup")!=null)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
+            if (HttpContext.Session.GetString("UserGroup")!=null||true)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
             {
                 Data.LoadData();
                 Models.HomeModel model = new Models.HomeModel();
@@ -36,6 +38,7 @@ namespace WorkplacesAccounting.Controllers
             return RedirectToAction("Index", "Authorization");
         }
 
+        [Authorize]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

@@ -13,14 +13,14 @@
 <hr class="fancy"></hr>
 <div class="HomeContainer">
     @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x =>x.Cabinet).Where(x=>x.EndTime==""))
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x =>x.Auditory.Name).Where(x=>x.EndTime==""))
         {
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
                     <div class="card__body">
                         <div class="tag__body">
                             <span class="tag tag-green">Активная</span>
-                            <span class="tag tag-gray">@curSession.Cabinet</span>
+                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
                         </div>
                         <h4>Сессия #@curSession.ID</h4>
                     </div>
@@ -43,14 +43,16 @@
 <hr class="fancy"></hr>
 <div class="HomeContainer">
     @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x => x.Cabinet).Where(x => x.EndTime != ""))
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x => x.Auditory.Name).Where(x => x.EndTime != ""))
         {
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
 
                     <div class="card__body">
-                        <span class="tag tag-red">Завершенная</span>
-                        <span class="tag tag-gray">@curSession.Cabinet</span>
+                        <div class="tag__body">
+                            <span class="tag tag-red">Завершенная</span>
+                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
+                        </div>
                         <h4>Сессия #@curSession.ID</h4>
                     </div>
                     <div class="card__footer">

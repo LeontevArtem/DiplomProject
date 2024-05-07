@@ -9,9 +9,10 @@ namespace WorkplacesAccounting.Common
         public static List<Models.Session> SessionsList;
         public static List<Models.User> UsersList;
         public static List<Models.LogData> LogList;
+        public static List<Models.Auditory> AuditoryList;
         public static string ConnectionString = "server = DESKTOP-ARTEM; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
-        public static void LoadData()
+        public static bool LoadData()
         {
             UsersList = new List<Models.User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
@@ -27,6 +28,15 @@ namespace WorkplacesAccounting.Common
                 NewUser.cohort = Convert.ToString(UserQuery.Rows[i][6]);
                 UsersList.Add(NewUser);
             }
+            AuditoryList = new List<Models.Auditory>();
+            System.Data.DataTable AuditoryQuery = MsSQL.Query($"SELECT * FROM [dbo].[Auditory]", ConnectionString);
+            for (int i = 0; i < AuditoryQuery.Rows.Count; i++)
+            {
+                Models.Auditory NewAuditory = new Models.Auditory();
+                NewAuditory.Id = Convert.ToInt32(AuditoryQuery.Rows[i][0]);
+                NewAuditory.Name = Convert.ToString(AuditoryQuery.Rows[i][1]);
+                AuditoryList.Add(NewAuditory);
+            }
 
             SessionsList = new List<Models.Session>();
             System.Data.DataTable SessionQuery = MsSQL.Query($"SELECT * FROM [dbo].[Sessions]", ConnectionString);
@@ -37,8 +47,7 @@ namespace WorkplacesAccounting.Common
                 NewSession.User = UsersList.Find(x => x.id == Convert.ToString(SessionQuery.Rows[i][1]));
                 NewSession.StartTime = Convert.ToString(SessionQuery.Rows[i][2]);
                 NewSession.EndTime = Convert.ToString(SessionQuery.Rows[i][3]);
-                NewSession.Observation = Convert.ToString(SessionQuery.Rows[i][4]);
-                NewSession.Cabinet = Convert.ToString(SessionQuery.Rows[i][5]);
+                NewSession.Auditory = AuditoryList.Find(x=>x.Id== Convert.ToInt32(SessionQuery.Rows[i][4]));
                 SessionsList.Add(NewSession);
             }
 
@@ -54,6 +63,7 @@ namespace WorkplacesAccounting.Common
                 NewLog.Tag = Convert.ToString(LogQuery.Rows[i][4]);
                 LogList.Add(NewLog);
             }
+            return true;
         }
     }
 }
