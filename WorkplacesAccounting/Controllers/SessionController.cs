@@ -12,9 +12,11 @@ namespace WorkplacesAccounting.Controllers
         [Authorize]
         public IActionResult Index(string id)
         {
+            Data.LoadData();
             SessionModel model = new SessionModel();
             model.Session = Data.SessionsList.Find(x => x.ID==Convert.ToInt32(id));
             model.Logs = Data.LogList.Where(x => x.Session==model.Session).ToList();
+            model.ObservationsList = Data.ObservationsList.Where(x =>x.Session.ID==model.Session.ID).ToList();
 
             return View(model);
         }

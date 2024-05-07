@@ -1,4 +1,6 @@
-﻿using WorkplacesAccounting.Controllers;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
+using WorkplacesAccounting.Controllers;
 using WorkplacesAccounting.Models;
 
 namespace WorkplacesAccounting.Common
@@ -10,6 +12,7 @@ namespace WorkplacesAccounting.Common
         public static List<Models.User> UsersList;
         public static List<Models.LogData> LogList;
         public static List<Models.Auditory> AuditoryList;
+        public static List<Models.Observation> ObservationsList;
         public static string ConnectionString = "server = DESKTOP-ARTEM; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
         public static bool LoadData()
@@ -48,6 +51,7 @@ namespace WorkplacesAccounting.Common
                 NewSession.StartTime = Convert.ToString(SessionQuery.Rows[i][2]);
                 NewSession.EndTime = Convert.ToString(SessionQuery.Rows[i][3]);
                 NewSession.Auditory = AuditoryList.Find(x=>x.Id== Convert.ToInt32(SessionQuery.Rows[i][4]));
+                NewSession.ComputerName = Convert.ToString(SessionQuery.Rows[i][5]);
                 SessionsList.Add(NewSession);
             }
 
@@ -59,9 +63,23 @@ namespace WorkplacesAccounting.Common
                 NewLog.LogID = Convert.ToInt32(LogQuery.Rows[i][0]);
                 NewLog.Session = SessionsList.Find(x =>x.ID == Convert.ToInt32(LogQuery.Rows[i][1]));
                 NewLog.Data = Convert.ToString(LogQuery.Rows[i][2]);
+                var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                NewLog.Data = rx.Replace(NewLog.Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1));
                 NewLog.Date = Convert.ToString(LogQuery.Rows[i][3]);
                 NewLog.Tag = Convert.ToString(LogQuery.Rows[i][4]);
                 LogList.Add(NewLog);
+            }
+
+            ObservationsList = new List<Models.Observation>();
+            System.Data.DataTable ObservationsQuery = MsSQL.Query($"SELECT * FROM [dbo].[Observations]", ConnectionString);
+            for (int i = 0; i < ObservationsQuery.Rows.Count; i++)
+            {
+                Models.Observation NewObservation = new Models.Observation();
+                NewObservation.Id = Convert.ToInt32(ObservationsQuery.Rows[i][0]);
+                NewObservation.Data = Convert.ToString(ObservationsQuery.Rows[i][1]);
+                NewObservation.Date = Convert.ToString(ObservationsQuery.Rows[i][2]);
+                NewObservation.Session = SessionsList.Find(x=>x.ID== Convert.ToInt32(ObservationsQuery.Rows[i][3]));
+                ObservationsList.Add(NewObservation);
             }
             return true;
         }

@@ -8,6 +8,8 @@
         <div class="Row">
             <h3>Имя пользователя: </h3>
             <h5>@Model.Session.User.firstname @Model.Session.User.lastname</h5>
+            <h3>Имя компьютера: </h3>
+            <h5>@Model.Session.ComputerName</h5>
             <hr/>
             <h3>Дата начала: </h3>
             <h5>@Model.Session.StartTime</h5>
@@ -25,7 +27,13 @@
             }
             <hr />
             <h3>Замечания: </h3>
-            <h5>@Model.Session.Observation</h5>
+            @{
+                foreach (Observation curObservation in Model.ObservationsList)
+                {
+                    <h5>@curObservation.Data</h5>
+                }
+            }
+            
             <hr />
                 <div class="BtnContainer">
                     <form>
@@ -43,7 +51,7 @@
             <h3>Логи</h3>
             <ul class="tree">
                 @{
-                    var GroupingByTag = Model.Logs.OrderBy(x => x.Date).GroupBy(x => x.Tag);
+                    var GroupingByTag = Model.Logs.OrderByDescending(x => x.Date).GroupBy(x => x.Tag);
                     // foreach (WorkplacesAccounting.Models.LogData curLog in Model.Logs.OrderBy(x =>x.Date))
                     foreach (var GroupByTag in GroupingByTag)
                     {
@@ -62,7 +70,21 @@
                                                         @{
                                                             foreach (var log in GroupByDate)
                                                             {
-                                                                <li>@log.Data</li>
+                                                                if (log.Tag != "Processes")
+                                                                {
+                                                                    <li>@log.Data</li>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <li>
+                                                                    @{  foreach (string process in log.Data.Replace("[", "").Replace("]", "").Split(','))
+                                                                        {
+                                                                        <p>@process</p>
+                                                                        }
+                                                                    }
+                                                                    </li>
+                                                                }
+
                                                             }
                                                         }
                                                     </ul>

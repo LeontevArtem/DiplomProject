@@ -21,7 +21,9 @@ body {
     margin-bottom: 100px;
     background-color: #F0F2F4;
 }
-
+footer{
+    position:absolute;
+}
 .background {
     width: 430px;
     height: 520px;
