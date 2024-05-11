@@ -18,7 +18,17 @@
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
                     <div class="card__header">
-                        <img src="" alt="card__image" class="card__image" width="600">
+                        @{
+                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
+                            {
+                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                            }
+                            else
+                            {
+                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
+                            }
+                        }
+                        
                     </div>
                     <div class="card__body">
                         <div class="tag__body">
@@ -52,7 +62,16 @@
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
                     <div class="card__header">
-                        <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                        @{
+                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
+                            {
+                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                            }
+                            else
+                            {
+                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
+                            }
+                        }
                     </div>
                     <div class="card__body">
                         <div class="tag__body">

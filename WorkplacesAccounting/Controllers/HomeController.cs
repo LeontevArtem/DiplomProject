@@ -25,7 +25,7 @@ namespace WorkplacesAccounting.Controllers
         {
             if (HttpContext.Session.GetString("UserGroup")!=null||true)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
             {
-                
+                if(Data.SessionsList.Count==0) Data.LoadData();
                 Models.HomeModel model = new Models.HomeModel();
                 if (!String.IsNullOrEmpty(SearchString))
                 {

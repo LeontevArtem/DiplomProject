@@ -37,6 +37,11 @@ namespace WorkplacesAccounting.Common
 
         public static void LoadData()
         {
+            //UsersList.Clear();
+            //LogList.Clear();
+            //AuditoryList.Clear();
+            //SessionsList.Clear();
+            //ObservationsList.Clear();
             UsersList = new List<Models.User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
             for (int i = 0; i < UserQuery.Rows.Count; i++)
@@ -49,7 +54,8 @@ namespace WorkplacesAccounting.Common
                 NewUser.lastname = Convert.ToString(UserQuery.Rows[i][4]);
                 NewUser.email = Convert.ToString(UserQuery.Rows[i][5]);
                 NewUser.cohort = Convert.ToString(UserQuery.Rows[i][6]);
-                UsersList.Add(NewUser);
+                if(!UsersList.Exists(x=>x.id==NewUser.id)) UsersList.Add(NewUser);
+
             }
             AuditoryList = new List<Models.Auditory>();
             System.Data.DataTable AuditoryQuery = MsSQL.Query($"SELECT * FROM [dbo].[Auditory]", ConnectionString);
@@ -58,7 +64,8 @@ namespace WorkplacesAccounting.Common
                 Models.Auditory NewAuditory = new Models.Auditory();
                 NewAuditory.Id = Convert.ToInt32(AuditoryQuery.Rows[i][0]);
                 NewAuditory.Name = Convert.ToString(AuditoryQuery.Rows[i][1]);
-                AuditoryList.Add(NewAuditory);
+                if(!AuditoryList.Exists(x=>x.Id==NewAuditory.Id)) AuditoryList.Add(NewAuditory);
+
             }
 
             SessionsList = new List<Models.Session>();
@@ -73,7 +80,7 @@ namespace WorkplacesAccounting.Common
                 NewSession.Auditory = AuditoryList.Find(x=>x.Id== Convert.ToInt32(SessionQuery.Rows[i][4]));
                 NewSession.ComputerName = Convert.ToString(SessionQuery.Rows[i][5]);
                 NewSession.WorkareaPreview = Convert.ToString(SessionQuery.Rows[i][6]);
-                SessionsList.Add(NewSession);
+                if(!SessionsList.Exists(x=>x.ID==NewSession.ID))SessionsList.Add(NewSession);
             }
 
             LogList = new List<Models.LogData>();
@@ -84,11 +91,9 @@ namespace WorkplacesAccounting.Common
                 NewLog.LogID = Convert.ToInt32(LogQuery.Rows[i][0]);
                 NewLog.Session = SessionsList.Find(x =>x.ID == Convert.ToInt32(LogQuery.Rows[i][1]));
                 NewLog.Data = Convert.ToString(LogQuery.Rows[i][2]);
-                //var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                //NewLog.Data = rx.Replace(NewLog.Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1));
                 NewLog.Date = Convert.ToString(LogQuery.Rows[i][3]);
                 NewLog.Tag = Convert.ToString(LogQuery.Rows[i][4]);
-                LogList.Add(NewLog);
+                if(!LogList.Exists(x=>x.LogID==NewLog.LogID))LogList.Add(NewLog);
             }
 
             ObservationsList = new List<Models.Observation>();
@@ -100,7 +105,7 @@ namespace WorkplacesAccounting.Common
                 NewObservation.Data = Convert.ToString(ObservationsQuery.Rows[i][1]);
                 NewObservation.Date = Convert.ToString(ObservationsQuery.Rows[i][2]);
                 NewObservation.Session = SessionsList.Find(x=>x.ID== Convert.ToInt32(ObservationsQuery.Rows[i][3]));
-                ObservationsList.Add(NewObservation);
+                if(!ObservationsList.Exists(x=>x.Id==NewObservation.Id))ObservationsList.Add(NewObservation);
             }
         }
     }
