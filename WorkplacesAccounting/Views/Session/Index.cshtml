@@ -38,9 +38,15 @@
                 <div class="BtnContainer">
                     <form>
                         <input type="hidden" value="@Model.Session.ID" name="id"/>
-                        <input class="RegButton" asp-controller="Session" asp-action="Test" value="Разлогинить" type="submit"/>
-                        <button class="RegButton">Кнопка</button>
-                        <button class="RegButton">Кнопка</button>
+                        @{
+                            if (String.IsNullOrEmpty(Model.Session.EndTime))
+                            {
+                                <input class="RegButton" asp-controller="Session" asp-action="Test" value="Закончить сессию" type="submit" />
+                            }
+                        }
+                        
+                        @* <button class="RegButton">Кнопка</button>
+                        <button class="RegButton">Кнопка</button> *@
                     </form>
                     
                 </div>
@@ -52,7 +58,6 @@
             <ul class="tree">
                 @{
                     var GroupingByTag = Model.Logs.OrderByDescending(x => x.Date).GroupBy(x => x.Tag);
-                    // foreach (WorkplacesAccounting.Models.LogData curLog in Model.Logs.OrderBy(x =>x.Date))
                     foreach (var GroupByTag in GroupingByTag)
                     {
                         <li>
