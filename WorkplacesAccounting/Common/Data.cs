@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Text;
 using System.Text.RegularExpressions;
 using WorkplacesAccounting.Controllers;
 using WorkplacesAccounting.Models;
@@ -7,6 +8,7 @@ namespace WorkplacesAccounting.Common
 {
     public static  class Data
     {
+        public static Thread DataMonitoring;
 
         public static List<Models.Session> SessionsList;
         public static List<Models.User> UsersList;
@@ -15,7 +17,25 @@ namespace WorkplacesAccounting.Common
         public static List<Models.Observation> ObservationsList;
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
-        public static bool LoadData()
+        public static void StartDataMonitoringThread()
+        {
+            DataMonitoring = new Thread(() =>
+            {
+                while (true)
+                {
+                    LoadData();
+                    Thread.Sleep(100);
+                }
+            });
+            DataMonitoring.Start();
+        }
+
+
+
+
+
+
+        public static void LoadData()
         {
             UsersList = new List<Models.User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
@@ -52,6 +72,7 @@ namespace WorkplacesAccounting.Common
                 NewSession.EndTime = Convert.ToString(SessionQuery.Rows[i][3]);
                 NewSession.Auditory = AuditoryList.Find(x=>x.Id== Convert.ToInt32(SessionQuery.Rows[i][4]));
                 NewSession.ComputerName = Convert.ToString(SessionQuery.Rows[i][5]);
+                NewSession.WorkareaPreview = Convert.ToString(SessionQuery.Rows[i][6]);
                 SessionsList.Add(NewSession);
             }
 
@@ -81,7 +102,6 @@ namespace WorkplacesAccounting.Common
                 NewObservation.Session = SessionsList.Find(x=>x.ID== Convert.ToInt32(ObservationsQuery.Rows[i][3]));
                 ObservationsList.Add(NewObservation);
             }
-            return true;
         }
     }
 }

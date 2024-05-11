@@ -16,6 +16,7 @@ namespace WorkplacesAccounting.Common
             sqlCommand.CommandText = selectSQL;
             SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
             sqlDataAdapter.Fill(dataTable);
+            sqlConnection.Close();
             return dataTable;
         }
         public static void WriteLogToDataBase(int SessionID, string Info)

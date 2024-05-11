@@ -125,6 +125,11 @@ footer{
     flex-direction: column;
     gap: .5rem;
 }
+.card__header img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}
 
 .tag__body {
     display: flex;

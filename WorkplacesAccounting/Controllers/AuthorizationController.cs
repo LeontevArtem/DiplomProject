@@ -33,6 +33,7 @@ namespace WorkplacesAccounting.Controllers
                     user.SaveToDatabase();
                     HttpContext.Session.SetString("UserId", user.id);
                     HttpContext.Session.SetString("UserGroup", user.cohort);
+                    Data.StartDataMonitoringThread();
                     return RedirectToAction("Index", "Home"); 
                 }
 

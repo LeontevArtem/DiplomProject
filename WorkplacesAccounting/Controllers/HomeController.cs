@@ -25,18 +25,19 @@ namespace WorkplacesAccounting.Controllers
         {
             if (HttpContext.Session.GetString("UserGroup")!=null||true)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
             {
-                Data.LoadData();
+                
                 Models.HomeModel model = new Models.HomeModel();
                 if (!String.IsNullOrEmpty(SearchString))
                 {
-                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString.ToLower())||Convert.ToString(x.ID).ToLower().Contains(SearchString.ToLower())||x.ComputerName.ToLower().Contains(SearchString.ToLower())).ToList();
+                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString.ToLower())||Convert.ToString(x.ID).ToLower().Contains(SearchString.ToLower())||x.ComputerName.ToLower().Contains(SearchString.ToLower())).OrderByDescending(x=>x.StartTime).ToList();
                 }
-                else model.SessionsList = Data.SessionsList;
+                else model.SessionsList = Data.SessionsList.OrderByDescending(x => x.StartTime).ToList();
 
                 return View(model);
             }
             return RedirectToAction("Index", "Authorization");
         }
+        
 
         [Authorize]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

@@ -1,4 +1,6 @@
-﻿namespace WorkplacesAccounting.Models
+﻿using System.Drawing;
+
+namespace WorkplacesAccounting.Models
 {
     public class Session
     {
@@ -8,5 +10,6 @@
         public string EndTime { get; set; }
         public Auditory Auditory { get; set; }
         public string ComputerName {  get; set; }
+        public string WorkareaPreview { get; set; }
     }
 }

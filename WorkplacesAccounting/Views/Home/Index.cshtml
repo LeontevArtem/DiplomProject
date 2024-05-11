@@ -13,10 +13,13 @@
 <hr class="fancy"></hr>
 <div class="HomeContainer">
     @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x =>x.Auditory.Name).Where(x=>x.EndTime==""))
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.Where(x=>x.EndTime==""))
         {
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
+                    <div class="card__header">
+                        <img src="" alt="card__image" class="card__image" width="600">
+                    </div>
                     <div class="card__body">
                         <div class="tag__body">
                             <span class="tag tag-green">Активная</span>
@@ -44,11 +47,13 @@
 <hr class="fancy"></hr>
 <div class="HomeContainer">
     @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.OrderBy(x => x.Auditory.Name).Where(x => x.EndTime != ""))
+        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.Where(x => x.EndTime != ""))
         {
             <a class="content" href="/Session/Index?id=@curSession.ID">
                 <div class="card">
-
+                    <div class="card__header">
+                        <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                    </div>
                     <div class="card__body">
                         <div class="tag__body">
                             <span class="tag tag-red">Завершенная</span>
