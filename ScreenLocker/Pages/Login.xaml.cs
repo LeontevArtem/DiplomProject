@@ -35,23 +35,31 @@ namespace ScreenLocker.Pages
         }
         private async void LogInClick(object sender, RoutedEventArgs e)
         {
-            User curUser = Moodle.ConvertJsonToUser(await Moodle.Authenticate(LoginBox.GetText(), PasswordBox.GetText()));
-            if (curUser.Validate())
+            try
             {
-                MainWindow.CurrentSession.User = curUser;
-                MainWindow.CurrentSession.User.SaveToDatabase();
-                parrentPage.MainScreen.Navigate(new Pages.SessionData());
-                //new Windows.AddObservation(mainWindow).Show();
+                User curUser = Moodle.ConvertJsonToUser(await Moodle.Authenticate(LoginBox.GetText(), PasswordBox.GetText()));
+                if (curUser.Validate())
+                {
+                    MainWindow.CurrentSession.User = curUser;
+                    MainWindow.CurrentSession.User.SaveToDatabase();
+                    parrentPage.MainScreen.Navigate(new Pages.SessionData());
+                    //new Windows.AddObservation(mainWindow).Show();
+                }
+                else
+                {
+                    LoginBox.SetText("Неверный логин или пароль");
+                    Task LoginError = LoginBox.ShowError(5);
+                    Task PasswordError = PasswordBox.ShowError(5);
+                    await LoginError;
+                    await PasswordError;
+                    LoginBox.SetText("");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                LoginBox.SetText("Неверный логин или пароль");
-                Task LoginError = LoginBox.ShowError(5);
-                Task PasswordError = PasswordBox.ShowError(5);
-                await LoginError;
-                await PasswordError;
-                LoginBox.SetText("");
+                System.Windows.MessageBox.Show(ex.Message);
             }
+            
 
         }
         private void Close_Click(object sender, RoutedEventArgs e)

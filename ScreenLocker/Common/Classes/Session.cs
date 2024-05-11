@@ -34,20 +34,26 @@ namespace ScreenLocker.Common.Classes
         }
         public void EndSession()
         {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"UPDATE [dbo].[Sessions] SET [EndTime] = '{DateTime.Now}' WHERE SessionID = '{Id}' ", MainWindow.ConnectionString);
+            Common.DataBase.MsSQL.Query($"UPDATE [dbo].[Sessions] SET [EndTime] = '{DateTime.Now}' WHERE SessionID = '{Id}' ", MainWindow.ConnectionString);
             WriteLogToDataBase($"Сессия {Id} завершена. Пользователь {User.firstname}", Session.LogTag.End);
         }
         public void AddObservation(string Data)
         {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Observations]([Data],[Date],[SessionID])VALUES('{Data}','{DateTime.Now}','{Id}')", MainWindow.ConnectionString);
+            Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Observations]([Data],[Date],[SessionID])VALUES('{Data}','{DateTime.Now}','{Id}')", MainWindow.ConnectionString);
             WriteLogToDataBase($"Пользователем {User.firstname} добавлено замечание: {Data}", Session.LogTag.Observation);
         }
 
         public void WriteLogToDataBase(string Data, LogTag Tag)
         {
             var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Log]([SessionID],[Data],[Date],[Tag])VALUES('{Id}','{rx.Replace(Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1))}','{DateTime.Now}','{Tag.ToString()}'); SELECT SCOPE_IDENTITY()", MainWindow.ConnectionString);
-            //int test = Convert.ToInt32(Insert.Rows[Insert.Rows.Count - 1][0]);
+            Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Log]([SessionID],[Data],[Date],[Tag])VALUES('{Id}','{rx.Replace(Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1))}','{DateTime.Now}','{Tag.ToString()}')", MainWindow.ConnectionString);
+        }
+        public bool CheckAccess()
+        {
+            System.Data.DataTable Check = Common.DataBase.MsSQL.Query($"SELECT [EndTime] FROM [dbo].[Sessions] WHERE SessionID = '{Id}' ", MainWindow.ConnectionString);
+            DateTime EndTime = new DateTime();
+            return DateTime.TryParse(Check.Rows[Check.Rows.Count-1][0].ToString(), out EndTime);
+            //return (EndTime != null);
         }
 
     }

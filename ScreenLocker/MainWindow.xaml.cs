@@ -5,6 +5,7 @@ using ScreenLocker.Common.LockFunctions;
 using ScreenLocker.Pages;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,26 +35,57 @@ namespace ScreenLocker
         public static List<Window> screenLocks = new List<Window>();
         public static List<User> users = new List<User>();
         public static List<Auditory> AuditoriesList = new List<Auditory>();
-        
+
+        public static MainWindow mainWindow;
 
         public MainWindow()
         {
             InitializeComponent();
+            Runing = true;
+            mainWindow = this;
+            MainWindow.CurrentSession = new Session();
             LoadData();
-            CurrentSession = new Session();
+            CreateLockScreens();
             if (CheckDB())
             {
-                Lock.SetAutorunValue(true); // - Ля какая опасная штука
-                Hooks.SetHook();// - ЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯ ОПАСНОСТЬ
-                Runing = true;
-                Blocking = true;
-
-                ShowLockScreens(); // Блокировка
-                Lock.SetTaskManager(false);// Отключение диспетчера задач
+                //Lock.SetAutorunValue(true); // - Ля какая опасная штука
+                LockComputer();
             }
             else System.Windows.MessageBox.Show("Не удалось подключиться к базе данных");
 
         }
+
+        public static void LockComputer()
+        {
+            if (!Blocking)
+            {
+                mainWindow.Dispatcher.Invoke(() =>
+                {
+                    Blocking = true;
+                    Hooks.SetHook();// - ЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯ ОПАСНОСТЬ
+                    Lock.SetTaskManager(false);// Отключение диспетчера задач
+                    ShowLockScreens(); // Блокировка
+                });
+            }
+            
+            
+        }
+        public static void UnlockComputer()
+        {
+            if (Blocking)
+            {
+                Blocking = false;
+                foreach (Window screenLock in MainWindow.screenLocks)
+                {
+                    screenLock.Hide();
+                }
+                Hooks.Unhook();
+                MainWindow.Blocking = false;
+                Lock.ShowStartMenu();
+            }
+        }
+
+
 
         public bool CheckDB()
         {
@@ -72,21 +104,16 @@ namespace ScreenLocker
                 AuditoriesList.Add(auditory);
             }
         }
-
-        /// <summary>
-        /// Сбор данных по процессам
-        /// </summary>
-        
         /// <summary>
         /// Отобразить незакрываемые экраны блокировки
         /// </summary>
-        public void ShowLockScreens()
+        public static void CreateLockScreens()
         {
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)//Разворачивание экранов
             {
                 if (System.Windows.Forms.Screen.AllScreens[i].Primary)
                 {
-                    var WindowMain = new MainScreenLock(System.Windows.Forms.Screen.AllScreens[i], this);
+                    var WindowMain = new MainScreenLock(System.Windows.Forms.Screen.AllScreens[i], mainWindow);
                     var WorkingAreaMain = System.Windows.Forms.Screen.AllScreens[i].WorkingArea;
                     WindowMain.Top = WorkingAreaMain.Top;
                     WindowMain.Left = WorkingAreaMain.Left;
@@ -101,7 +128,7 @@ namespace ScreenLocker
                 }
                 else
                 {
-                    var Window = new ScreenLock(System.Windows.Forms.Screen.AllScreens[i], this);
+                    var Window = new ScreenLock(System.Windows.Forms.Screen.AllScreens[i], mainWindow);
                     var WorkingArea = System.Windows.Forms.Screen.AllScreens[i].WorkingArea;
                     Window.Top = WorkingArea.Top;
                     Window.Left = WorkingArea.Left;
@@ -115,6 +142,14 @@ namespace ScreenLocker
                     screenLocks.Add(Window);
                 }
                 //this.Hide();
+            }
+        }
+        public static void ShowLockScreens()
+        {
+            foreach (Window screenLock in MainWindow.screenLocks)
+            {
+                screenLock.Show();
+                if (screenLock is MainScreenLock) (screenLock as MainScreenLock).MainScreen.Navigate(new Pages.Login(mainWindow, (screenLock as MainScreenLock)));
             }
         }
 

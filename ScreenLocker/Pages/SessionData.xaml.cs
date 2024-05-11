@@ -1,10 +1,12 @@
 ﻿using ScreenLocker.Common.Classes;
 using ScreenLocker.Common.DataBase;
 using ScreenLocker.Common.DataMonitoring;
+using ScreenLocker.Common.Images;
 using ScreenLocker.Common.LockFunctions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -37,16 +39,11 @@ namespace ScreenLocker.Pages
         {
             if (Auditory.SelectedItem!= null)
             {
-                foreach (Window screenLock in MainWindow.screenLocks)
-                {
-                    screenLock.Hide();
-                }
-                Hooks.Unhook();
-                MainWindow.Blocking = false;
-                Common.LockFunctions.Lock.ShowStartMenu();
+                MainWindow.UnlockComputer();
                 MainWindow.CurrentSession.StartSession();
                 MainWindow.CurrentSession.AddObservation("Тестовое змечание");
                 new Thread(new ThreadStart(DataMonitoring)).Start();
+                new Thread(new ThreadStart(SetWorkAreaPreview)).Start();
             }
         }
 
@@ -57,10 +54,22 @@ namespace ScreenLocker.Pages
             {
                 processes = DataMonitor.GetAllProcesses();
                 MainWindow.CurrentSession.WriteLogToDataBase($"Список процессов: {JsonSerializer.Serialize(processes)}", Session.LogTag.Processes);
-                Thread.Sleep(1000*1);
+                if (MainWindow.CurrentSession.CheckAccess())
+                {
+                    MainWindow.LockComputer();
+                }
+                Thread.Sleep(1000);
             }
         }
-        
+        public void SetWorkAreaPreview()
+        {
+
+            while (true)
+            {
+                Common.DataBase.MsSQL.Query($"UPDATE [dbo].[Sessions] SET [WorkAreaPreview] = '{ImageProcessor.ConvertImageToString(ImageProcessor.TakeScreenShot())}' WHERE SessionID={MainWindow.CurrentSession.Id}", MainWindow.ConnectionString);
+                Thread.Sleep(1000*60);
+            }
+        }
         
 
 
