@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace ScreenLocker.Common.Classes
@@ -43,7 +45,9 @@ namespace ScreenLocker.Common.Classes
 
         public void WriteLogToDataBase(string Data, LogTag Tag)
         {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Log]([SessionID],[Data],[Date],[Tag])VALUES('{Id}','{Data}','{DateTime.Now}','{Tag.ToString()}')", MainWindow.ConnectionString);
+            var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Log]([SessionID],[Data],[Date],[Tag])VALUES('{Id}','{rx.Replace(Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1))}','{DateTime.Now}','{Tag.ToString()}'); SELECT SCOPE_IDENTITY()", MainWindow.ConnectionString);
+            //int test = Convert.ToInt32(Insert.Rows[Insert.Rows.Count - 1][0]);
         }
 
     }

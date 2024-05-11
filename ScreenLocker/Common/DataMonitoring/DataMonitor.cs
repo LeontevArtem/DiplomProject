@@ -22,7 +22,7 @@ namespace ScreenLocker.Common.DataMonitoring
             ProcessWindow[] applications = ProcessHelper.GetRunningApplications();
             foreach (ProcessWindow pw in applications)
             {
-                ProcessInfoList.Add(pw.WindowTitle);
+                ProcessInfoList.Add($"{pw.WindowTitle} Начат:{pw.StartTime}");
             }
             return ProcessInfoList;
         }

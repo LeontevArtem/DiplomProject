@@ -25,7 +25,7 @@ namespace ScreenLocker
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static string ConnectionString = "server = DESKTOP-ARTEM; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
+        public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
         public static bool Runing;//Флаг, что программа запущена
         public static bool Blocking;// Флаг что надо блокировать все что только можно
@@ -47,7 +47,7 @@ namespace ScreenLocker
                 Hooks.SetHook();// - ЛЯЯЯЯЯЯЯЯЯЯЯЯЯЯ ОПАСНОСТЬ
                 Runing = true;
                 Blocking = true;
-                
+
                 ShowLockScreens(); // Блокировка
                 Lock.SetTaskManager(false);// Отключение диспетчера задач
             }
@@ -84,7 +84,7 @@ namespace ScreenLocker
         {
             for (int i = 0; i < System.Windows.Forms.Screen.AllScreens.Length; i++)//Разворачивание экранов
             {
-                if (i == 0)
+                if (System.Windows.Forms.Screen.AllScreens[i].Primary)
                 {
                     var WindowMain = new MainScreenLock(System.Windows.Forms.Screen.AllScreens[i], this);
                     var WorkingAreaMain = System.Windows.Forms.Screen.AllScreens[i].WorkingArea;

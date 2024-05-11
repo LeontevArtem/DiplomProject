@@ -11,11 +11,13 @@ namespace ScreenLocker.Common.DataMonitoring
     {
         public string WindowTitle { get; private set; }
         public Process Process { get; private set; }
+        public string StartTime { get; private set; }
 
         public ProcessWindow(string windowTitle, Process process)
         {
             WindowTitle = windowTitle;
             Process = process;
+            StartTime = Process.StartTime.ToString();
         }
     }
 }

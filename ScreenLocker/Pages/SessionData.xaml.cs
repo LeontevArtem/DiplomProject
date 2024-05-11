@@ -43,11 +43,10 @@ namespace ScreenLocker.Pages
                 }
                 Hooks.Unhook();
                 MainWindow.Blocking = false;
-                new Thread(new ThreadStart(DataMonitoring)).Start();
                 Common.LockFunctions.Lock.ShowStartMenu();
                 MainWindow.CurrentSession.StartSession();
                 MainWindow.CurrentSession.AddObservation("Тестовое змечание");
-                //MainWindow.CurrentSession.WriteLogToDataBase($"Сессия {MainWindow.CurrentSession.Id} начата пользоватлем {MainWindow.CurrentSession.User.firstname} в {DateTime.Now.ToShortTimeString()}",Session.LogTag.Start);
+                new Thread(new ThreadStart(DataMonitoring)).Start();
             }
         }
 
