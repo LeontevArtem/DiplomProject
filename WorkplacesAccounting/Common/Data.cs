@@ -13,7 +13,7 @@ namespace WorkplacesAccounting.Common
         public static List<Models.LogData> LogList;
         public static List<Models.Auditory> AuditoryList;
         public static List<Models.Observation> ObservationsList;
-        public static string ConnectionString = "server = DESKTOP-ARTEM; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
+        public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
         public static bool LoadData()
         {
@@ -63,8 +63,8 @@ namespace WorkplacesAccounting.Common
                 NewLog.LogID = Convert.ToInt32(LogQuery.Rows[i][0]);
                 NewLog.Session = SessionsList.Find(x =>x.ID == Convert.ToInt32(LogQuery.Rows[i][1]));
                 NewLog.Data = Convert.ToString(LogQuery.Rows[i][2]);
-                var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-                NewLog.Data = rx.Replace(NewLog.Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1));
+                //var rx = new Regex(@"\\u([0-9A-Z]{4})", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+                //NewLog.Data = rx.Replace(NewLog.Data, p => new string((char)int.Parse(p.Groups[1].Value, NumberStyles.HexNumber), 1));
                 NewLog.Date = Convert.ToString(LogQuery.Rows[i][3]);
                 NewLog.Tag = Convert.ToString(LogQuery.Rows[i][4]);
                 LogList.Add(NewLog);

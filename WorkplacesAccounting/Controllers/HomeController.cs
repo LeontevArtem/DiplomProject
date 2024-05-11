@@ -29,7 +29,7 @@ namespace WorkplacesAccounting.Controllers
                 Models.HomeModel model = new Models.HomeModel();
                 if (!String.IsNullOrEmpty(SearchString))
                 {
-                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString)||Convert.ToString(x.ID).ToLower().Contains(SearchString)||x.ComputerName.ToLower().Contains(SearchString)).ToList();
+                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString.ToLower())||Convert.ToString(x.ID).ToLower().Contains(SearchString.ToLower())||x.ComputerName.ToLower().Contains(SearchString.ToLower())).ToList();
                 }
                 else model.SessionsList = Data.SessionsList;
 
