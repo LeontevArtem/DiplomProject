@@ -106,6 +106,18 @@ footer{
     gap: 2rem;
 }
 
+.HomeElement summary {
+    font-weight: 500;
+    font-size: 24px;
+     /*display: flex;*/
+    /*justify-content: center;*/
+}
+.HomeList details {
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+}
+
 .card {
     display: flex;
     flex-direction: column;
@@ -203,7 +215,7 @@ footer{
 .SearchDiv {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: right;
 }
 .SearchContainer {
     display: flex;

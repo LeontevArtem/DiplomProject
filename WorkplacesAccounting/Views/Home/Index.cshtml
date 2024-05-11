@@ -3,98 +3,123 @@
 }
 @model WorkplacesAccounting.Models.HomeModel;
 <div class="SearchDiv">
-    <h3>Активные сессии</h3>
     <form class="SearchContainer" asp-controller="Home" asp-action="Index" method="get">
         <input class="SearchBox" type="text" name="SearchString" id="SearchString"/>
         <input class="RegButton" type="submit" value="Найти" />
     </form>
 </div>
 
-<hr class="fancy"></hr>
-<div class="HomeContainer">
-    @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.Where(x=>x.EndTime==""))
-        {
-            <a class="content" href="/Session/Index?id=@curSession.ID">
-                <div class="card">
-                    <div class="card__header">
-                        @{
-                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
-                            {
-                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
-                            }
-                            else
-                            {
-                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
-                            }
+<div class="HomeList">
+    <details open class="HomeElement">
+        <summary>
+            Активные сессии(@Model.SessionsList.Where(x => x.EndTime == "").Count())
+        </summary>
+        @{
+            var GroupingByAuditoryActive = Model.SessionsList.Where(x => x.EndTime == "").GroupBy(x => x.Auditory);
+            foreach (var GroupByAuditory in GroupingByAuditoryActive)
+            {
+                <h4>Аудитория @GroupByAuditory.Key.Name</h4>
+                <hr class="fancy"></hr>
+                <div class="HomeContainer">
+                    @{
+                        foreach (var curSession in GroupByAuditory)
+                        {
+                            <a class="content" href="/Session/Index?id=@curSession.ID">
+                                <div class="card">
+                                    <div class="card__header">
+                                        @{
+                                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
+                                            {
+                                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                                            }
+                                            else
+                                            {
+                                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
+                                            }
+                                        }
+
+                                    </div>
+                                    <div class="card__body">
+                                        <div class="tag__body">
+                                            <span class="tag tag-green">Активная</span>
+                                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
+                                        </div>
+                                        <span class="tag tag-gray">@curSession.ComputerName</span>
+                                        <h4>Сессия #@curSession.ID</h4>
+                                    </div>
+                                    <div class="card__footer">
+                                        <div class="user">
+                                            <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
+                                            <div class="user__info">
+                                                <h5>@curSession.User.firstname</h5>
+                                                <small>@curSession.User.cohort.Split(',')[0]</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         }
-                        
-                    </div>
-                    <div class="card__body">
-                        <div class="tag__body">
-                            <span class="tag tag-green">Активная</span>
-                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
-                        </div>
-                        <span class="tag tag-gray">@curSession.ComputerName</span>
-                        <h4>Сессия #@curSession.ID</h4>
-                    </div>
-                    <div class="card__footer">
-                        <div class="user">
-                            <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
-                            <div class="user__info">
-                                <h5>@curSession.User.firstname</h5>
-                                <small>@curSession.User.cohort.Split(',')[0]</small>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
-            </a>
-            
+            }
         }
-    }
-</div>
-<h3>Завершенные сессии</h3>
-<hr class="fancy"></hr>
-<div class="HomeContainer">
-    @{
-        foreach (WorkplacesAccounting.Models.Session curSession in Model.SessionsList.Where(x => x.EndTime != ""))
-        {
-            <a class="content" href="/Session/Index?id=@curSession.ID">
-                <div class="card">
-                    <div class="card__header">
-                        @{
-                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
-                            {
-                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
-                            }
-                            else
-                            {
-                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
-                            }
+    </details>
+    <hr class="fancy"/>
+    <details class="HomeElement">
+        <summary>
+            Завершенные сессии(@Model.SessionsList.Where(x => x.EndTime != "").Count())
+        </summary>
+        @{
+            var GroupingByAuditoryEnded = Model.SessionsList.Where(x => x.EndTime != "").GroupBy(x => x.Auditory);
+            foreach (var GroupByAuditory in GroupingByAuditoryEnded)
+            {
+                <h4>Аудитория @GroupByAuditory.Key.Name</h4>
+                <hr class="fancy"></hr>
+                <div class="HomeContainer">
+                    @{
+                        foreach (var curSession in GroupByAuditory)
+                        {
+                            <a class="content" href="/Session/Index?id=@curSession.ID">
+                                <div class="card">
+                                    <div class="card__header">
+                                        @{
+                                            if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
+                                            {
+                                                <img src="@String.Format("data:image/png;base64,{0}", curSession.WorkareaPreview)" alt="card__image" class="card__image" width="600">
+                                            }
+                                            else
+                                            {
+                                                <img src="https://media.moddb.com/images/articles/1/73/72743/image_error_full.png" alt="card__image" class="card__image" width="600">
+                                            }
+                                        }
+
+                                    </div>
+                                    <div class="card__body">
+                                        <div class="tag__body">
+                                            <span class="tag tag-red">Завершенная</span>
+                                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
+                                        </div>
+                                        <span class="tag tag-gray">@curSession.ComputerName</span>
+                                        <h4>Сессия #@curSession.ID</h4>
+                                    </div>
+                                    <div class="card__footer">
+                                        <div class="user">
+                                            <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
+                                            <div class="user__info">
+                                                <h5>@curSession.User.firstname</h5>
+                                                <small>@curSession.User.cohort.Split(',')[0]</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
                         }
-                    </div>
-                    <div class="card__body">
-                        <div class="tag__body">
-                            <span class="tag tag-red">Завершенная</span>
-                            <span class="tag tag-gray">@curSession.Auditory.Name</span>
-                        </div>
-                        <span class="tag tag-gray">@curSession.ComputerName</span>
-                        <h4>Сессия #@curSession.ID</h4>
-                    </div>
-                    <div class="card__footer">
-                        <div class="user">
-                            <img src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="user__image" class="user__image">
-                            <div class="user__info">
-                                <h5>@curSession.User.firstname</h5>
-                                <small>@curSession.User.cohort.Split(',')[0]</small>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
-            </a>
-            
+            }
         }
-    }
+    </details>
+    
 </div>
 
 
