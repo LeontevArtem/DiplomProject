@@ -28,7 +28,9 @@ namespace ScreenLocker.Common.Classes
 
         public void StartSession()
         {
-            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Sessions] ([UserID], [StartTime],[Auditory],[Computer] )VALUES('{User.id}', '{DateTime.Now}','{Auditory.ID}','{System.Environment.MachineName}'); SELECT SCOPE_IDENTITY();", MainWindow.ConnectionString);
+            Computer computer = new Computer();
+            computer.SaveToDataBase();
+            System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Sessions] ([UserID], [StartTime],[Auditory],[Computer] )VALUES('{User.id}', '{DateTime.Now}','{Auditory.ID}','{computer.Id}'); SELECT SCOPE_IDENTITY();", MainWindow.ConnectionString);
             Id = Convert.ToInt32(Insert.Rows[Insert.Rows.Count - 1][0]);
             WriteLogToDataBase($"Сессия {Id} начата. Пользователь: {User.firstname}", Session.LogTag.Start);
         }

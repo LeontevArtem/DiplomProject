@@ -50,16 +50,20 @@ namespace ScreenLocker.Pages
         public void DataMonitoring()
         {
             List<string> processes;
-            while (MainWindow.Runing)
+            if (MainWindow.Runing)
             {
-                processes = DataMonitor.GetAllProcesses();
-                MainWindow.CurrentSession.WriteLogToDataBase($"Список процессов: {JsonSerializer.Serialize(processes)}", Session.LogTag.Processes);
-                if (MainWindow.CurrentSession.CheckAccess())
+                while (MainWindow.Runing)
                 {
-                    MainWindow.LockComputer();
+                    processes = DataMonitor.GetAllProcesses();
+                    MainWindow.CurrentSession.WriteLogToDataBase($"Список процессов: {JsonSerializer.Serialize(processes)}", Session.LogTag.Processes);
+                    if (MainWindow.CurrentSession.CheckAccess())
+                    {
+                        MainWindow.LockComputer();
+                    }
+                    Thread.Sleep(1000);
                 }
-                Thread.Sleep(1000);
             }
+            
         }
         public void SetWorkAreaPreview()
         {
