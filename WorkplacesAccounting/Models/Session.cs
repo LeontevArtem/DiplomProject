@@ -9,7 +9,7 @@ namespace WorkplacesAccounting.Models
         public string StartTime { get; set; }
         public string EndTime { get; set; }
         public Auditory Auditory { get; set; }
-        public string ComputerName {  get; set; }
+        public Computer Computer {  get; set; }
         public string WorkareaPreview { get; set; }
     }
 }

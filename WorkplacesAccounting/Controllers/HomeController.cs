@@ -29,7 +29,7 @@ namespace WorkplacesAccounting.Controllers
                 Models.HomeModel model = new Models.HomeModel();
                 if (!String.IsNullOrEmpty(SearchString))
                 {
-                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString.ToLower())|| x.User.lastname.ToLower().Contains(SearchString.ToLower())|| x.Auditory.Name.ToLower().Contains(SearchString.ToLower()) || Convert.ToString(x.ID).ToLower().Contains(SearchString.ToLower())||x.ComputerName.ToLower().Contains(SearchString.ToLower())).OrderByDescending(x=>x.StartTime).ToList();
+                    model.SessionsList = Data.SessionsList.Where(x =>x.User.firstname.ToLower().Contains(SearchString.ToLower())|| x.User.lastname.ToLower().Contains(SearchString.ToLower())|| x.Auditory.Name.ToLower().Contains(SearchString.ToLower()) || Convert.ToString(x.ID).ToLower().Contains(SearchString.ToLower())||x.Computer.MachineName.ToLower().Contains(SearchString.ToLower())).OrderByDescending(x=>x.StartTime).ToList();
                 }
                 else model.SessionsList = Data.SessionsList.OrderByDescending(x => x.StartTime).ToList();
 
