@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using WorkplacesAccounting.Classes;
 using WorkplacesAccounting.Common;
 using WorkplacesAccounting.Models;
 
@@ -20,7 +21,7 @@ namespace WorkplacesAccounting.Controllers
         {
             if (ModelState.IsValid)
             {
-                User user = Models.User.ConvertJsonToUser(await Common.Moodle.Authenticate(model.Login,model.Password));
+                User user = Classes.User.ConvertJsonToUser(await Common.Moodle.Authenticate(model.Login,model.Password));
                 if (user.Validate()) 
                 {
                     var claims = new List<Claim>
@@ -28,10 +29,10 @@ namespace WorkplacesAccounting.Controllers
                             new Claim(ClaimsIdentity.DefaultNameClaimType, user.username)
                         };
                     ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
-
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
                     user.SaveToDatabase();
                     HttpContext.Session.SetString("UserId", user.id);
+                    HttpContext.Session.SetString("UserName", user.firstname);
                     HttpContext.Session.SetString("UserGroup", user.cohort);
                     Data.StartDataMonitoringThread();
                     return RedirectToAction("Index", "Home"); 

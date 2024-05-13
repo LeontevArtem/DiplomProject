@@ -1,4 +1,6 @@
-﻿namespace WorkplacesAccounting.Models
+﻿using WorkplacesAccounting.Classes;
+
+namespace WorkplacesAccounting.Models
 {
     public class SessionModel
     {

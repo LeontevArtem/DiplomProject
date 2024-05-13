@@ -1,7 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Информация о сесии";
 }
-@model WorkplacesAccounting.Models.SessionModel;
+@model WorkplacesAccounting.Models.SessionModel
+@using WorkplacesAccounting.Classes
 <div class="SessionContainer">
     <h1 class="fancy">Информация о сессии #@Model.Session.ID</h1>
     <div class="InfoContainer">

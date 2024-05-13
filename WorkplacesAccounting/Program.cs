@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System;
-using WorkplacesAccounting.Models;
 using System.Reflection;
 using WorkplacesAccounting.Common;
+using WorkplacesAccounting.Classes;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,7 +46,7 @@ app.MapPost("/Autorization/Index", async (string? returnUrl, HttpContext context
 
     // находим пользовател€ 
     //User? person = people.FirstOrDefault(p => p.Email == email && p.Password == password);
-    User? person = WorkplacesAccounting.Models.User.ConvertJsonToUser(await WorkplacesAccounting.Common.Moodle.Authenticate(email, password));
+    User? person = User.ConvertJsonToUser(await WorkplacesAccounting.Common.Moodle.Authenticate(email, password));
     // если пользователь не найден, отправл€ем статусный код 401
     if (person is null) return Results.BadRequest("Ќе авторизован");
 
