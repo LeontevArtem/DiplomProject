@@ -128,7 +128,14 @@ footer{
     background: #ECE9E6;
     background: linear-gradient(to right, #FFFFFF, #ECE9E6);
 }
-
+.ScreenShareContainer{
+    display:flex;
+    justify-content:center;
+}
+.ScreenShare {
+    width: 100vh;
+    height: 50vh;
+}
 
 
 .card__body {

@@ -1,68 +1,77 @@
 ﻿@model WorkplacesAccounting.Models.SessionModel
 @using WorkplacesAccounting.Classes
-<div class="SessionContainer">
-    <h1 class="fancy">Информация о сессии #@Model.Session.ID</h1>
-    <div class="InfoContainer">
-        <div class="Row">
-            <h3>Имя пользователя: </h3>
-            <h5>@Model.Session.User.firstname @Model.Session.User.lastname</h5>
-            <h3>Имя компьютера: </h3>
-            <h5>@Model.Session.Computer.MachineName</h5>
-            <hr/>
-            <h3>Дата начала: </h3>
-            <h5>@Model.Session.StartTime</h5>
-            <hr />
-            <h3>Дата окончания: </h3>
-            @{
-                if(Model.Session.EndTime!="")
-                {
-                    <h5>@Model.Session.EndTime</h5>
-                }
-                else
-                {
-                    <h5>Не окончена</h5>
-                }
-            }
-            <hr />
-            <h3>Замечания: </h3>
-            @{
-                foreach (Observation curObservation in Model.ObservationsList)
-                {
-                    <h5>@curObservation.Data</h5>
-                }
-            }
-            
-            <hr />
-                <div class="BtnContainer">
-                    <form>
-                        <input type="hidden" value="@Model.Session.ID" name="id"/>
-                        @{
-                            if (String.IsNullOrEmpty(Model.Session.EndTime))
-                            {
-                                <input class="RegButton" asp-controller="Session" asp-action="Test" value="Закончить сессию" type="submit" />
-                            }
-                        }
-                        
-                        @* <button class="RegButton">Кнопка</button>
-                        <button class="RegButton">Кнопка</button> *@
-                    </form>
-                    
+
+<div class="card">
+    <div class="card-header d-flex p-0">
+        <h3 class="card-title p-3">Информация о сессии</h3>
+        <ul class="nav nav-pills ml-auto p-2">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                    Действия <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" tabindex="-1" href="#">Action</a>
+                    <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
                 </div>
-                <div>
+            </li>
+            <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Сводка</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_2" data-toggle="tab">Таймлайн</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_3" data-toggle="tab">Программы</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_4" data-toggle="tab">Логи</a></li>
+            <li class="nav-item"><a class="nav-link" href="#tab_5" data-toggle="tab">Трансляция</a></li>
+            
+            
+            
+        </ul>
+    </div><!-- /.card-header -->
+    <div class="card-body">
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1">
+                <h3>Имя пользователя: </h3>
+                <h5>@Model.Session.User.firstname @Model.Session.User.lastname</h5>
+                <h3>Имя компьютера: </h3>
+                <h5>@Model.Session.Computer.MachineName</h5>
+                <hr />
+                <h3>Дата начала: </h3>
+                <h5>@Model.Session.StartTime</h5>
+                <hr />
+                <h3>Дата окончания: </h3>
+                @{
+                    if (Model.Session.EndTime != "")
+                    {
+                        <h5>@Model.Session.EndTime</h5>
+                    }
+                    else
+                    {
+                        <h5>Не окончена</h5>
+                    }
+                }
+                <hr />
+                <h3>Замечания: </h3>
+                @{
+                    foreach (Observation curObservation in Model.ObservationsList)
+                    {
+                        <h5>@curObservation.Data</h5>
+                    }
+                }
+            </div>
+            <div class="tab-pane" id="tab_2">
+
                 <h3>Таймлайн сессии: </h3>
                 <div class="row">
                     <div class="col-md-12">
                         <!-- The time line -->
-                        
+
                         <div class="timeline">
                             @{
-                                foreach (LogData TimeLineItem in Model.Logs.Where(x=>x.Tag!="Processes"))
+                                foreach (LogData TimeLineItem in Model.Logs.Where(x => x.Tag != "Processes"))
                                 {
                                     <div>
                                         <i class="fas fa-user bg-green"></i>
                                         <div class="timeline-item">
-                                            <span class="time"><i class="fas fa-clock"></i> 
-                                            @{
+                                            <span class="time">
+                                                <i class="fas fa-clock"></i>
+                                                @{
                                                     string time = "";
                                                     if (Convert.ToInt32(DateTime.Now.Subtract(DateTime.Parse(TimeLineItem.Date)).TotalHours) < 1)
                                                     {
@@ -72,20 +81,20 @@
                                                     {
                                                         time = Convert.ToInt32(DateTime.Now.Subtract(DateTime.Parse(TimeLineItem.Date)).TotalHours).ToString() + " hours";
                                                     }
-                                            }
+                                                }
                                                 @time ago
                                             </span>
-                                            <h3 class="timeline-header"><a href="#">@TimeLineItem.Session.User.firstname</a> --- </h3>
+                                            <h3 class="timeline-header"><a href="#">@TimeLineItem.Session.User.firstname </a> (@TimeLineItem.Tag)</h3>
                                             <div class="timeline-body">
                                                 @TimeLineItem.Data
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 }
                             }
-                            
-                            
+
+
                             <div>
                                 <i class="fas fa-clock bg-gray"></i>
                             </div>
@@ -93,62 +102,148 @@
                     </div>
                     <!-- /.col -->
                 </div>
+
+
+            </div>
+            <div class="tab-pane" id="tab_3">
+                <div class="card-body">
+                    <table id="example2" class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Программа</th>
+                                <th>Время запуска</th>
+                                <th>Время закрытия</th>
+                                @{
+                                    if (Model.Session.EndTime == "")
+                                    {
+                                        <th>Действия</th>
+                                    }
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{
+                                var ProgrammGrouped = Model.Programms.OrderBy(x => DateTime.Parse(x.StartTime)).GroupBy(x => x.WindowTitle);
+                                foreach (var program in ProgrammGrouped)
+                                {
+                                    <tr>
+                                        <td>
+                                            @program.Key
+                                        </td>
+                                        <td>
+                                            @{
+                                                if (@program.Key.Replace("—", "-").Split('-').Length > 1)
+                                                {
+                                                    @program.Key.Replace("—", "-").Split('-').Last().Trim()
+                                                }
+
+                                            }
+                                        </td>
+                                        <td>@program.First().StartTime</td>
+                                        <td> @program.Last().Time</td>
+                                        <td>
+                                            @{
+                                                if(Model.Session.EndTime=="")
+                                                {
+                                                    <a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#modal-delete">
+                                                        <i class="fas fa-trash">
+                                                        </i>
+                                                        @* Удалить *@
+                                                    </a>
+                                                }
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Заголовок</th>
+                                <th>Программа</th>
+                                <th>Время запуска</th>
+                                <th>Время закрытия</th>
+                                @{
+                                    if (Model.Session.EndTime == "")
+                                    {
+                                        <th>Действия</th>
+                                    }
+                                }
+                                    
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
 
-            
-        </div>
-        <div class="Row">
-            <h3>Логи</h3>
-            <ul class="tree">
-                @{
-                    var GroupingByTag = Model.Logs.OrderByDescending(x => x.Date).GroupBy(x => x.Tag);
-                    foreach (var GroupByTag in GroupingByTag)
-                    {
-                        <li>
-                            <details>
-                                <summary>@GroupByTag.Key</summary>
-                                <ul>
-                                    @{
-                                        var GroupingByDate = GroupByTag.GroupBy(x=>x.Date);
-                                        foreach (var GroupByDate in GroupingByDate)
-                                        {
-                                            <li>
-                                                <details>
-                                                    <summary>@GroupByDate.Key</summary>
-                                                    <ul>
-                                                        @{
-                                                            foreach (var log in GroupByDate)
-                                                            {
-                                                                if (log.Tag != "Processes")
+            </div>
+            <div class="tab-pane" id="tab_4">
+                <h3>Логи</h3>
+                <ul class="tree">
+                    @{
+                        var GroupingByTag = Model.Logs.OrderByDescending(x => x.Date).GroupBy(x => x.Tag);
+                        foreach (var GroupByTag in GroupingByTag)
+                        {
+                            <li>
+                                <details>
+                                    <summary>@GroupByTag.Key</summary>
+                                    <ul>
+                                        @{
+                                            var GroupingByDate = GroupByTag.GroupBy(x => x.Date);
+                                            foreach (var GroupByDate in GroupingByDate)
+                                            {
+                                                <li>
+                                                    <details>
+                                                        <summary>@GroupByDate.Key</summary>
+                                                        <ul>
+                                                            @{
+                                                                foreach (var log in GroupByDate)
                                                                 {
-                                                                    <li>@log.Data</li>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <li>
-                                                                    @{  foreach (string process in log.Data.Replace("[", "").Replace("]", "").Split(','))
-                                                                        {
-                                                                        <p>@process</p>
-                                                                        }
+                                                                    if (log.Tag != "Processes")
+                                                                    {
+                                                                        <li>@log.Data</li>
                                                                     }
-                                                                    </li>
-                                                                }
+                                                                    else
+                                                                    {
+                                                                        <li>
+                                                                            @{
+                                                                                foreach (string process in log.Data.Replace("[", "").Replace("]", "").Split(','))
+                                                                                {
+                                                                                    <p>@process</p>
+                                                                                }
+                                                                            }
+                                                                        </li>
+                                                                    }
 
+                                                                }
                                                             }
-                                                        }
-                                                    </ul>
-                                                </details>
-                                            </li>
+                                                        </ul>
+                                                    </details>
+                                                </li>
+                                            }
+
                                         }
-                                        
-                                    }
-                                </ul>
-                            </details>
-                        </li>
+                                    </ul>
+                                </details>
+                            </li>
+                        }
                     }
-                }
-            </ul>
+                </ul>
+
+            </div>
+            <!-- /.tab-pane -->
+            <div class="tab-pane" id="tab_5">
+                <div class="ScreenShareContainer">
+                    <img class="ScreenShare" src="http://www.tele.ru/wp-content/uploads/2021/06/aesf.-predostavleno-press-sluzhboj.jpg" />
+                </div>
+                
+            </div>
             
+            <!-- /.tab-pane -->
         </div>
-    </div>
+        <!-- /.tab-content -->
+    </div><!-- /.card-body -->
 </div>
+
