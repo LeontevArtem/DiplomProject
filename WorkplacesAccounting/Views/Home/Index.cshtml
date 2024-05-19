@@ -24,7 +24,7 @@
                         foreach (var curSession in GroupByAuditory)
                         {
                             <a class="content" href="/Session/Index?id=@curSession.ID">
-                                <div class="card">
+                                <div class="card_session">
                                     <div class="card__header">
                                         @{
                                             if (!String.IsNullOrEmpty(curSession.WorkareaPreview))
@@ -79,7 +79,7 @@
                         foreach (var curSession in GroupByAuditory)
                         {
                             <a class="content" href="/Session/Index?id=@curSession.ID">
-                                <div class="card">
+                                <div class="card_session">
                                     <div class="card__header">
                                         @{
                                             if (!String.IsNullOrEmpty(curSession.WorkareaPreview))

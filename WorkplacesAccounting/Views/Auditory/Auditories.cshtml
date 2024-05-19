@@ -1,0 +1,138 @@
+﻿@model AuditoriesListModel
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Аудитории</h3>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-striped projects">
+            <thead>
+                <tr>
+                    <th style="width: 1%">
+                        #
+                    </th>
+                    <th style="width: 20%">
+                        Аудитория
+                    </th>
+                    <th style="width: 30%">
+                        Участники
+                    </th>
+                    <th>
+                        Загруженность
+                    </th>
+                    <th style="width: 8%" class="text-center">
+                        Статус
+                    </th>
+                    <th style="width: 20%">
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (WorkplacesAccounting.Models.AuditoryExtended curAuditory in Model.AuditoryExtended)
+                {
+                   
+                    <form asp-action="Delete" asp-controller="Auditory" method="post">
+                        <input type="hidden" asp-for="Id" value="@curAuditory.Auditory.Id" />
+                    <tr>
+                        <td>
+                                @curAuditory.Auditory.Id
+                        </td>
+                        <td>
+                            <a>
+                                    @curAuditory.Auditory.Name
+                            </a>
+                            <br />
+                            <small>
+                                    @curAuditory.Auditory.ResponsibleUser.firstname
+                            </small>
+                        </td>
+                        <td>
+                            <ul class="list-inline">
+                                    @{
+                                        foreach (WorkplacesAccounting.Classes.User user in curAuditory.Users)
+                                        {
+                                        <li class="list-inline-item">
+                                            <img alt="Avatar" class="table-avatar" src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm">
+                                        </li>
+                                        }
+                                    }
+
+                            </ul>
+                        </td>
+                        <td class="project_progress">
+                            <div class="progress progress-sm">
+                                <div class="progress-bar bg-green" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="30" style="width: @curAuditory.workload%">
+                                </div>
+                            </div>
+                            <small>
+                                    @curAuditory.Auditory.AmountOfSessions Сессий
+                            </small>
+                        </td>
+                        <td class="project-state">
+                                @{
+                                    if (curAuditory.Auditory.isActive)
+                                    {
+                                    <span class="badge badge-success">Активная</span>
+                                    }
+                                    else
+                                    {
+                                    <span class="badge badge-success">Неактивная</span>
+                                    }
+                                }
+
+                        </td>
+                        <td class="project-actions text-right">
+                            <a class="btn btn-primary btn-sm" href="#">
+                                <i class="fas fa-folder">
+                                </i>
+                                Подробнее
+                            </a>
+                            <a class="btn btn-info btn-sm" href="/Auditory/Edit?id=@curAuditory.Auditory.Id">
+                                <i class="fas fa-pencil-alt">
+                                </i>
+                                    @* Редактировать *@
+                            </a>
+                            <a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#modal-delete">
+                                <i class="fas fa-trash">
+                                </i>
+                                    @* Удалить *@
+                            </a>
+                        </td>
+                        <div class="modal fade" id="modal-delete">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Удаление аудитории</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Вы уверены, что хотите удалить Аудиторию?<p>
+                                        <p>Это приведет к удалению всех связанных данных<p>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                                        <button type="submit" class="btn btn-primary"> Удалить </button>
+                                    </div>
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                            <!-- /.modal-dialog -->
+                        </div>
+                    </tr>
+                    </form>
+                }
+                
+                
+            </tbody>
+        </table>
+        
+    </div>
+    <a class="btn btn-primary btn-sm" href="#">
+        <i class="fas fa-plus">
+        </i>
+        Добавить
+    </a>
+    <!-- /.card-body -->
+</div>
+

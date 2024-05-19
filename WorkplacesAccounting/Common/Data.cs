@@ -25,7 +25,7 @@ namespace WorkplacesAccounting.Common
                 while (true)
                 {
                     LoadData();
-                    Thread.Sleep(100);
+                    Thread.Sleep(1000);
                 }
             });
             DataMonitoring.Start();
@@ -38,11 +38,6 @@ namespace WorkplacesAccounting.Common
 
         public static void LoadData()
         {
-            //UsersList.Clear();
-            //LogList.Clear();
-            //AuditoryList.Clear();
-            //SessionsList.Clear();
-            //ObservationsList.Clear();
             UsersList = new List<User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
             for (int i = 0; i < UserQuery.Rows.Count; i++)

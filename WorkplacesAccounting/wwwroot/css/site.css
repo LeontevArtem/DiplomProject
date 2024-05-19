@@ -118,7 +118,7 @@ footer{
     justify-content: right;
 }
 
-.card {
+.card_session {
     display: flex;
     flex-direction: column;
     width: clamp(15rem, calc(15rem + 2vw), 17rem);

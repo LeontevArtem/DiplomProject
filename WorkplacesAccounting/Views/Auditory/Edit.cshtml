@@ -1,0 +1,69 @@
+﻿@model WorkplacesAccounting.Classes.Auditory
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">Редактирование аудитории</h3>
+    </div>
+    
+    <form asp-action="Edit" asp-controller="Auditory">
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Сохранение изменений</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Вы уверены, что хотите сохранить изменения?<p>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                        <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <div class="card-body">
+            <input type="hidden" asp-for="Id">
+            <div class="form-group">
+                <label for="exampleInputEmail1">Название аудитории</label>
+                <input type="text" class="form-control"  placeholder="Аудитория А-000" asp-for="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Сокращенное обозначение</label>
+                <input type="text" class="form-control"  placeholder="А-000">
+            </div>
+            <div class="form-group">
+                <label>Ответственный преподователь</label>
+                <select class="form-control select2bs4" style="width: 100%;"  asp-for="ResponsibleUserId">
+                    @{
+                        foreach(WorkplacesAccounting.Classes.User curTeacher in WorkplacesAccounting.Common.Data.UsersList)
+                        {
+                            if (curTeacher.id==Model.ResponsibleUser.id)
+                            {
+                                <option selected="selected" value="@curTeacher.id">@curTeacher.firstname</option>
+                            }
+                            else
+                            {
+                                <option value="@curTeacher.id">@curTeacher.firstname</option>
+                            }
+                            
+                        }
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-default">
+                Сохранить
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+
