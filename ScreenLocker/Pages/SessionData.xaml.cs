@@ -49,13 +49,13 @@ namespace ScreenLocker.Pages
 
         public void DataMonitoring()
         {
-            List<string> processes;
+            List<ProcessWindow> processes;
             if (MainWindow.Runing)
             {
                 while (MainWindow.Runing)
                 {
                     processes = DataMonitor.GetAllProcesses();
-                    MainWindow.CurrentSession.WriteLogToDataBase($"Список процессов: {JsonSerializer.Serialize(processes)}", Session.LogTag.Processes);
+                    MainWindow.CurrentSession.WriteLogToDataBase($"{JsonSerializer.Serialize(processes)}", Session.LogTag.Processes);
                     if (MainWindow.CurrentSession.CheckAccess())
                     {
                         MainWindow.LockComputer();

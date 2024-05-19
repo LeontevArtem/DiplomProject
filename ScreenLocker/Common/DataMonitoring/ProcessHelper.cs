@@ -10,7 +10,7 @@ namespace ScreenLocker.Common.DataMonitoring
 {
     public class ProcessHelper
     {
-        public static ProcessWindow[] GetRunningApplications()
+        public static List<ProcessWindow> GetRunningApplications()
         {
             var allProccesses = Process.GetProcesses();
             var explorerPids = allProccesses.Where(p => "explorer".Equals(p.ProcessName, StringComparison.OrdinalIgnoreCase)).Select(p => p.Id).ToArray();
@@ -36,7 +36,7 @@ namespace ScreenLocker.Common.DataMonitoring
             };
 
             EnumDesktopWindows(IntPtr.Zero, filter, IntPtr.Zero);
-            return windows.ToArray();
+            return windows;
         }
 
         delegate bool EnumDelegate(IntPtr hWnd, int lParam);
