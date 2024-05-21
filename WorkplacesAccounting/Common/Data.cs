@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 using WorkplacesAccounting.Classes;
@@ -24,7 +25,15 @@ namespace WorkplacesAccounting.Common
             {
                 while (true)
                 {
-                    LoadData();
+                    try
+                    {
+                        LoadData();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"{ex.Message} {ex.StackTrace}");
+                    }
+                    
                     Thread.Sleep(1000);
                 }
             });
