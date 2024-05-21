@@ -18,6 +18,8 @@ namespace WorkplacesAccounting.Common
         public static List<Observation> ObservationsList;
         public static List<Computer> ComputersList;
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
+        public static User CurrentUser;
+
 
         public static void StartDataMonitoringThread()
         {

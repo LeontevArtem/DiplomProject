@@ -265,7 +265,11 @@ footer{
     .RegButton:active {
         background-color: #062A4A;
     }
-
+.table-avatar {
+    border-radius: 100%;
+    margin: 5%;
+    width: 60px;
+}
 
 
 

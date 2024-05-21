@@ -1,6 +1,15 @@
 ﻿@model WorkplacesAccounting.Models.SessionModel
 @using WorkplacesAccounting.Classes
 
+<aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    
+    <div class="p-3">
+        <h5>Сессия #</h5>
+        <p>Sidebar content</p>
+    </div>
+</aside>
+
 <div class="card">
     <div class="card-header d-flex p-0">
         <h3 class="card-title p-3">Информация о сессии</h3>
@@ -10,7 +19,7 @@
                     Действия <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" tabindex="-1" href="#">Action</a>
+                    <a class="dropdown-item" tabindex="-1" href="/Session/EndSession?id=@Model.Session.ID">Завершить</a>
                     <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
                 </div>
             </li>
@@ -233,7 +242,6 @@
                 </ul>
 
             </div>
-            <!-- /.tab-pane -->
             <div class="tab-pane" id="tab_5">
                 <div class="ScreenShareContainer">
                     <img class="ScreenShare" src="http://www.tele.ru/wp-content/uploads/2021/06/aesf.-predostavleno-press-sluzhboj.jpg" />
@@ -241,7 +249,6 @@
                 
             </div>
             
-            <!-- /.tab-pane -->
         </div>
         <!-- /.tab-content -->
     </div><!-- /.card-body -->

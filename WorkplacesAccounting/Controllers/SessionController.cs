@@ -34,7 +34,7 @@ namespace WorkplacesAccounting.Controllers
             return View(model);
         }
         [Authorize]
-        public IActionResult Test(string id)
+        public IActionResult EndSession(string id)
         {
             System.Data.DataTable Insert = MsSQL.Query($"UPDATE [dbo].[Sessions] SET [EndTime] = '{DateTime.Now}' WHERE SessionID = '{id}' ", Data.ConnectionString);
 

@@ -3,8 +3,12 @@
     <div class="card-header">
         <h3 class="card-title">Редактирование аудитории</h3>
     </div>
-    
-    <form asp-action="Edit" asp-controller="Auditory">
+    @{
+        string Action = "";
+        if (Model != null) Action = "Edit";
+        else Action = "Add";
+    }
+    <form asp-action="@Action" asp-controller="Auditory">
         <div class="modal fade" id="modal-default">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -40,18 +44,21 @@
                 <label>Ответственный преподователь</label>
                 <select class="form-control select2bs4" style="width: 100%;"  asp-for="ResponsibleUserId">
                     @{
-                        foreach(WorkplacesAccounting.Classes.User curTeacher in WorkplacesAccounting.Common.Data.UsersList)
-                        {
-                            if (curTeacher.id==Model.ResponsibleUser.id)
+                        
+                            foreach (WorkplacesAccounting.Classes.User curTeacher in WorkplacesAccounting.Common.Data.UsersList)
                             {
-                                <option selected="selected" value="@curTeacher.id">@curTeacher.firstname</option>
+                                if (Model!=null && curTeacher.id == Model.ResponsibleUser.id)
+                                {
+                                    <option selected="selected" value="@curTeacher.id">@curTeacher.firstname</option>
+                                }
+                                else
+                                {
+                                    <option value="@curTeacher.id">@curTeacher.firstname</option>
+                                }
+
                             }
-                            else
-                            {
-                                <option value="@curTeacher.id">@curTeacher.firstname</option>
-                            }
-                            
-                        }
+                        
+                        
                     }
                 </select>
             </div>
