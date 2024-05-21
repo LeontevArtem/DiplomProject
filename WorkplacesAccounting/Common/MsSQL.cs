@@ -10,13 +10,20 @@ namespace WorkplacesAccounting.Common
         public static DataTable Query(string selectSQL, string connectionString)
         {
             DataTable dataTable = new DataTable("database");
-            SqlConnection sqlConnection = new SqlConnection(connectionString);
-            sqlConnection.Open();
-            SqlCommand sqlCommand = sqlConnection.CreateCommand();
-            sqlCommand.CommandText = selectSQL;
-            SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
-            sqlDataAdapter.Fill(dataTable);
-            sqlConnection.Close();
+            
+            
+            try{
+                SqlConnection sqlConnection = new SqlConnection(connectionString);
+                sqlConnection.Open();
+                SqlCommand sqlCommand = sqlConnection.CreateCommand();
+                sqlCommand.CommandText = selectSQL;
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                sqlDataAdapter.Fill(dataTable);
+                sqlConnection.Close();
+            }
+            catch(Exception ex){
+
+            }
             return dataTable;
         }
         public static void WriteLogToDataBase(int SessionID, string Info)
