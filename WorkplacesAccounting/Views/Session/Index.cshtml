@@ -1,6 +1,29 @@
 ﻿@model WorkplacesAccounting.Models.SessionModel
 @using WorkplacesAccounting.Classes
-
+<div class="modal fade" id="modal-default">
+    <form>
+        <input type="hidden" value="@Model.Session.ID" name="id" />
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Сохранение изменений</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Вы уверены, что хотите завершить сессию?<p>
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Отмена</button>
+                    <button type="submit" class="btn btn-primary" asp-controller="Session" asp-action="EndSession">Завершить</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </form>
+    
+</div>
 <aside class="control-sidebar control-sidebar-dark">
     <!-- Control sidebar content goes here -->
     
@@ -19,8 +42,15 @@
                     Действия <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" tabindex="-1" href="/Session/EndSession?id=@Model.Session.ID">Завершить</a>
-                    <a class="dropdown-item" tabindex="-1" href="#">Another action</a>
+                    @{
+                        if (Model.Session.EndTime=="")
+                        {
+                            <a class="dropdown-item" tabindex="-1" data-toggle="modal" data-target="#modal-default">Завершить</a>
+                        }
+
+                    }
+                    
+                    <a class="dropdown-item" tabindex="-1" href="/Session/SendMessage?id=@Model.Session.ID" ">Отправить сообщение</a>
                 </div>
             </li>
             <li class="nav-item"><a class="nav-link active" href="#tab_1" data-toggle="tab">Сводка</a></li>

@@ -40,5 +40,13 @@ namespace WorkplacesAccounting.Controllers
 
             return RedirectToAction("Index", new { id });
         }
+        [Authorize]
+        public IActionResult SendMessage(string id)
+        {
+            string Userid = Data.SessionsList.Find(x => x.ID == Convert.ToInt32(id)).User.id;
+            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Message]([FromID],[ToID],[MessageText])VALUES('{Data.CurrentUser.id}','{Userid}','{"Test"}')", Data.ConnectionString);
+
+            return RedirectToAction("Index", new { id });
+        }
     }
 }

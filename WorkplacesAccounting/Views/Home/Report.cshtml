@@ -1,0 +1,65 @@
+﻿@model WorkplacesAccounting.Models.ReportModel
+<form asp-controller="Home" asp-action="Report" method="post">
+    <div class="form-group">
+        <label>С даты:</label>
+        <div class="input-group date" id="reservationdatestart" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdatestart" asp-for="StartTime" id="StartTime"/>
+            <div class="input-group-append" data-target="#reservationdatestart" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>По дату:</label>
+        <div class="input-group date" id="reservationdateend" data-target-input="nearest">
+            <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateend" asp-for="EndTime" id="EndTime"/>
+            <div class="input-group-append" data-target="#reservationdateend" data-toggle="datetimepicker">
+                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-block btn-primary btn-lg">Создать отчет</button>
+</form>
+
+@{
+    if (Model!=null)
+    {
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Предпросмотр</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <table id="Report" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>№ ПК</th>
+                            <th>ФИО студента</th>
+                            <th>Замечания</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            foreach (ReportRow reportRow in Model.reportRows)
+                            {
+                                <tr>
+                                    <td>@reportRow.PCNumber</td>
+                                    <td>@reportRow.StudentName</td>
+                                    <td>@reportRow.Observations</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>№ ПК</th>
+                            <th>ФИО студента</th>
+                            <th>Замечания</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+    }
+}

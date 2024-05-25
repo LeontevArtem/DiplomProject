@@ -1,0 +1,41 @@
+﻿@model List<WorkplacesAccounting.Classes.User>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Список пользователей</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <table id="UserList" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО</th>
+                    <th>Логин</th>
+                    <th>Группы</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach (WorkplacesAccounting.Classes.User user in Model)
+                    {
+                        <tr>
+                            <td>@user.id</td>
+                            <td>@user.firstname @user.lastname</td>
+                            <td>@user.username</td>
+                            <td>@user.cohort</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>ID</th>
+                    <th>Имя/Отчество</th>
+                    <th>Фамилия</th>
+                    <th>Группы</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>
