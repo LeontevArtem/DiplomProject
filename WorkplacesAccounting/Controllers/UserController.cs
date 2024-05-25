@@ -9,5 +9,9 @@ namespace WorkplacesAccounting.Controllers
         {
             return View(Data.UsersList);
         }
+        public IActionResult UserInfo(string id)
+        {
+            return View(Data.UsersList.Find(x=>x.id.ToString()==id));
+        }
     }
 }
