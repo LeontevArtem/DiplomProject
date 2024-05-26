@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.Logging;
 using ScreenLocker.Common.Classes;
+using ScreenLocker.Common.DataBase;
 using ScreenLocker.Common.DataMonitoring;
 using ScreenLocker.Common.LockFunctions;
 using ScreenLocker.Pages;
@@ -102,6 +103,21 @@ namespace ScreenLocker
                 auditory.ID = Convert.ToInt32(Auditories.Rows[i][0]);
                 auditory.Name = Convert.ToString(Auditories.Rows[i][1]);
                 AuditoriesList.Add(auditory);
+            }
+            users = new List<User>();
+            System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
+            for (int i = 0; i < UserQuery.Rows.Count; i++)
+            {
+                User NewUser = new User();
+                NewUser.id = Convert.ToString(UserQuery.Rows[i][0]);
+                NewUser.username = Convert.ToString(UserQuery.Rows[i][1]);
+                NewUser.password = Convert.ToString(UserQuery.Rows[i][2]);
+                NewUser.firstname = Convert.ToString(UserQuery.Rows[i][3]);
+                NewUser.lastname = Convert.ToString(UserQuery.Rows[i][4]);
+                NewUser.email = Convert.ToString(UserQuery.Rows[i][5]);
+                NewUser.cohort = Convert.ToString(UserQuery.Rows[i][6]);
+                if (!users.Exists(x => x.id == NewUser.id)) users.Add(NewUser);
+
             }
         }
         /// <summary>

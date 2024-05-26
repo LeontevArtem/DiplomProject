@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using Microsoft.VisualBasic.Devices;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -57,6 +59,25 @@ namespace ScreenLocker.Common.Classes
             return DateTime.TryParse(Check.Rows[Check.Rows.Count-1][0].ToString(), out EndTime);
             //return (EndTime != null);
         }
+        public void CheckMessage()
+        {
+            System.Data.DataTable Message = Common.DataBase.MsSQL.Query($"SELECT MessageID,FromID, MessageText,IsRead FROM [dbo].[Message] WHERE ToID = {User.id}", MainWindow.ConnectionString);
+            for (int i=0;i< Message.Rows.Count;i++)
+            {
+                Common.Classes.Message message = new Message();
+                message.ID = Convert.ToInt32(Message.Rows[i][0]);
+                message.From = MainWindow.users.Find(x=>x.id== Convert.ToString(Message.Rows[i][1]));
+                message.MessageText = Convert.ToString(Message.Rows[i][2]);
+                message.IsRead = Convert.ToInt32(Message.Rows[i][3])==1?true:false;
+                if (!message.IsRead)
+                {
+                    MessageBox.Show($"{message.MessageText}",$"Сообщение от {message.From.firstname}",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
+                }
+                
+            }
 
+
+        }
     }
 }

@@ -60,6 +60,7 @@ namespace ScreenLocker.Pages
                     {
                         MainWindow.LockComputer();
                     }
+                    MainWindow.CurrentSession.CheckMessage();
                     Thread.Sleep(1000);
                 }
             }
