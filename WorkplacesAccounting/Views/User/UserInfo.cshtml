@@ -70,8 +70,8 @@
                                                     <h3 class="timeline-header"><a href="#">Сессия @session.ID</a> </h3>
 
                                                     <div class="timeline-body">
-                                                        <p>Аудитория: @WorkplacesAccounting.Common.Data.AuditoryList.Find(x=>x.Id == session.Auditory.Id).Name</p>
-                                                        <p>Компьютер: @WorkplacesAccounting.Common.Data.ComputersList.Find(x=>x.Id==session.Computer.Id).MachineName</p>
+                                                        <p>Аудитория: @WorkplacesAccounting.Common.Data.AuditoryList.ToList().Find(x => x.Id == session.Auditory.Id).Name</p>
+                                                        <p>Компьютер: @WorkplacesAccounting.Common.Data.ComputersList.ToList().Find(x => x.Id == session.Computer.Id).MachineName</p>
                                                     </div>
                                                     <div class="timeline-footer">
                                                         <a href="/Session/Index?Id=@session.ID" class="btn btn-primary btn-sm">Подробнее</a>

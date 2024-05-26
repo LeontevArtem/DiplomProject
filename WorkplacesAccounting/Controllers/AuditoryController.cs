@@ -7,6 +7,7 @@ namespace WorkplacesAccounting.Controllers
     {
         public IActionResult Auditories()
         {
+            Data.LoadData();
             Models.AuditoriesListModel AuditoriesList = new Models.AuditoriesListModel();
             AuditoriesList.AuditoryExtended = new List<Models.AuditoryExtended>();
             foreach (Classes.Auditory curAuditory in Data.AuditoryList)
@@ -33,35 +34,41 @@ namespace WorkplacesAccounting.Controllers
         [HttpGet]
         public IActionResult Edit(string id)
         {
-            return View(Data.AuditoryList.Find(x => x.Id.ToString() == id));
+            Data.LoadData();
+            return View(Data.AuditoryList.ToList().Find(x => x.Id.ToString() == id));
         }
         [HttpPost]
         public IActionResult Edit(Classes.Auditory auditory)
         {
-            MsSQL.Query($"UPDATE [dbo].[Auditory] SET [Name] = '{auditory.Name}', [CurentResponsibleTeacher] = '{Data.UsersList.Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}' WHERE ID = '{auditory.Id}' ", Data.ConnectionString);
+            Data.LoadData();
+            MsSQL.Query($"UPDATE [dbo].[Auditory] SET [Name] = '{auditory.Name}', [CurentResponsibleTeacher] = '{Data.UsersList.ToList().Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}' WHERE ID = '{auditory.Id}' ", Data.ConnectionString);
             return RedirectToAction("Auditories", "Auditory");
         }
         [HttpGet]
         public IActionResult Add()
         {
+            Data.LoadData();
             return RedirectToAction("Edit", "Auditory");
         }
         [HttpPost]
         public IActionResult Add(Classes.Auditory auditory)
         {
-            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Auditory]([Name],[CurentResponsibleTeacher]) VALUES ('{auditory.Name}','{Data.UsersList.Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}')", Data.ConnectionString);
+            Data.LoadData();
+            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Auditory]([Name],[CurentResponsibleTeacher]) VALUES ('{auditory.Name}','{Data.UsersList.ToList().Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}')", Data.ConnectionString);
             return RedirectToAction("Auditories", "Auditory");
         }
         [HttpPost]
         public IActionResult Delete(string id)
         {
+            Data.LoadData();
             MsSQL.Query($"DELETE FROM [dbo].[Auditory] WHERE ID = '{id}'", Data.ConnectionString);
             return RedirectToAction("Auditories", "Auditory");
         }
         [HttpGet]
         public IActionResult Info(string id)
         {
-            return View(Data.AuditoryList.Find(x=>x.Id.ToString()==id));
+            Data.LoadData();
+            return View(Data.AuditoryList.ToList().Find(x=>x.Id.ToString()==id));
         }
 
     }

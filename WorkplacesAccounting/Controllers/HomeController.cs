@@ -26,6 +26,7 @@ namespace WorkplacesAccounting.Controllers
         [Authorize]
         public IActionResult Index(string SearchString)
         {
+            Data.LoadData();
             if (HttpContext.Session.GetString("UserGroup")!=null||true)//¬ будущем надо сделать так, чтобы доступ был только у преподователей. Ќу или как скажут.
             {
                 if(Data.SessionsList.Count==0) Data.LoadData();
@@ -52,11 +53,13 @@ namespace WorkplacesAccounting.Controllers
         [Authorize]
         public IActionResult Report()
         {
+            Data.LoadData();
             return View();
         }
         [HttpPost]
         public IActionResult Report(Models.ReportModel reportModel)
         {
+            Data.LoadData();
             try
             {
                 string[] StartDateMas = reportModel.StartTime.Split('/');

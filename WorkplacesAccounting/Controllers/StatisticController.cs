@@ -11,6 +11,7 @@ namespace WorkplacesAccounting.Controllers
     {
         public IActionResult Index()
         {
+            Data.LoadData();
             StatisticModel model = new StatisticModel();
             model.AmountOfUsers = Data.UsersList.Count;
             model.UsersOnline = Data.SessionsList.Where(x=>x.EndTime=="").ToList().Count;

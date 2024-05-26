@@ -177,7 +177,7 @@
                                             @{
                                                 if(Model.Session.EndTime=="")
                                                 {
-                                                    <a class="btn btn-danger btn-sm" href="#" data-toggle="modal" data-target="#modal-delete">
+                                                    <a class="btn btn-danger btn-sm" href="/Session/KillProcess?ProcessId=@program.First().PID&SessionId=@Model.Session.ID">
                                                         <i class="fas fa-trash">
                                                         </i>
                                                         @* Удалить *@

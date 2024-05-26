@@ -7,11 +7,13 @@ namespace WorkplacesAccounting.Controllers
     {
         public IActionResult Index()
         {
+            Data.LoadData();
             return View(Data.UsersList);
         }
         public IActionResult UserInfo(string id)
         {
-            return View(Data.UsersList.Find(x=>x.id.ToString()==id));
+            Data.LoadData();
+            return View(Data.UsersList.ToList().Find(x=>x.id.ToString()==id));
         }
     }
 }

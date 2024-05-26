@@ -19,6 +19,7 @@ namespace WorkplacesAccounting.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(AuthModel model)
         {
+            Data.LoadData();
             if (ModelState.IsValid)
             {
                 User user = Classes.User.ConvertJsonToUser(await Common.Moodle.Authenticate(model.Login,model.Password));

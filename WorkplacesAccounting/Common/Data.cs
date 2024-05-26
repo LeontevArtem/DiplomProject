@@ -39,7 +39,7 @@ namespace WorkplacesAccounting.Common
                     Thread.Sleep(1000);
                 }
             });
-            DataMonitoring.Start();
+            //DataMonitoring.Start();
         }
 
 
@@ -47,7 +47,7 @@ namespace WorkplacesAccounting.Common
 
 
 
-        public static void LoadData()
+        public static  void LoadData()
         {
             UsersList = new List<User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);

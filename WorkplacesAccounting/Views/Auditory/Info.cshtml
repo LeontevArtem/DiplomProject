@@ -73,8 +73,8 @@
                                                     <h3 class="timeline-header"><a href="#">Сессия @session.ID</a> </h3>
 
                                                     <div class="timeline-body">
-                                                        <p>Пользователь: @WorkplacesAccounting.Common.Data.UsersList.Find(x => x.id == session.User.id).firstname</p>
-                                                        <p>Компьютер: @WorkplacesAccounting.Common.Data.ComputersList.Find(x => x.Id == session.Computer.Id).MachineName</p>
+                                                        <p>Пользователь: @WorkplacesAccounting.Common.Data.UsersList.ToList().Find(x => x.id == session.User.id).firstname</p>
+                                                        <p>Компьютер: @WorkplacesAccounting.Common.Data.ComputersList.ToList().Find(x => x.Id == session.Computer.Id).MachineName</p>
                                                     </div>
                                                     <div class="timeline-footer">
                                                         <a href="/Session/Index?Id=@session.ID" class="btn btn-primary btn-sm">Подробнее</a>
