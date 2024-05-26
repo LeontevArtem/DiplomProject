@@ -41,9 +41,10 @@ namespace ScreenLocker.Pages
             {
                 MainWindow.UnlockComputer();
                 MainWindow.CurrentSession.StartSession();
-                MainWindow.CurrentSession.AddObservation("Тестовое змечание");
+                //MainWindow.CurrentSession.AddObservation("Тестовое змечание");
                 new Thread(new ThreadStart(DataMonitoring)).Start();
                 new Thread(new ThreadStart(SetWorkAreaPreview)).Start();
+                MainWindow.ni.Text += $" ({MainWindow.CurrentSession.User.firstname})";
             }
         }
 

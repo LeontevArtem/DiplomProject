@@ -11,5 +11,6 @@
     <Grid>
         <Button x:Name="close" Click="close_Click" Width="200" Height="200" Content="Clo se" HorizontalAlignment="Left"/>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden"/>
+        
     </Grid>
 </Window>

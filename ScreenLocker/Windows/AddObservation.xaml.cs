@@ -31,6 +31,7 @@ namespace ScreenLocker.Windows
         {
             if (Data.Text!=String.Empty)
             {
+                MainWindow.CurrentSession.AddObservation(Data.Text);
                 //MsSQL.WriteLogToDataBase(MainWindow.CurrentUser.SessionID, $"Сессия {MainWindow.CurrentUser.SessionID}. Добавлено замечание: \"{Data.Text}\"");
             }
             this.Close();

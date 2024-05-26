@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace ScreenLocker
@@ -25,7 +26,7 @@ namespace ScreenLocker
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
 
@@ -33,15 +34,18 @@ namespace ScreenLocker
         public static bool Blocking;// Флаг что надо блокировать все что только можно
 
         public static Session CurrentSession;
-        public static List<Window> screenLocks = new List<Window>();
+        public static List<System.Windows.Window> screenLocks = new List<System.Windows.Window>();
         public static List<User> users = new List<User>();
         public static List<Auditory> AuditoriesList = new List<Auditory>();
 
         public static MainWindow mainWindow;
 
+        public static System.Windows.Forms.NotifyIcon ni;
+
         public MainWindow()
         {
             InitializeComponent();
+            CreateTrayIcon();
             Runing = true;
             mainWindow = this;
             MainWindow.CurrentSession = new Session();
@@ -55,7 +59,31 @@ namespace ScreenLocker
             else System.Windows.MessageBox.Show("Не удалось подключиться к базе данных");
 
         }
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                this.Hide();
 
+            base.OnStateChanged(e);
+        }
+        public void CreateTrayIcon()
+        {
+            ni = new System.Windows.Forms.NotifyIcon();
+            ni.Icon = new System.Drawing.Icon("Main.ico");
+            ni.Visible = true;
+            ni.Text = "ScreenLocker";
+            ToolStripMenuItem addObservationMenuItem = new ToolStripMenuItem("Добавить замечание");
+            addObservationMenuItem.Click += delegate (object sender, EventArgs e) { new Windows.AddObservation(this).Show(); };
+            addObservationMenuItem.Image = new Bitmap("addIcon.png");
+            ni.ContextMenuStrip = new ContextMenuStrip();
+            ni.ContextMenuStrip.Items.Add(addObservationMenuItem);
+            ni.Click +=
+                delegate (object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                };
+        }
         public static void LockComputer()
         {
             if (!Blocking)
@@ -76,7 +104,7 @@ namespace ScreenLocker
             if (Blocking)
             {
                 Blocking = false;
-                foreach (Window screenLock in MainWindow.screenLocks)
+                foreach (System.Windows.Window screenLock in MainWindow.screenLocks)
                 {
                     screenLock.Hide();
                 }
@@ -162,7 +190,7 @@ namespace ScreenLocker
         }
         public static void ShowLockScreens()
         {
-            foreach (Window screenLock in MainWindow.screenLocks)
+            foreach (System.Windows.Window screenLock in MainWindow.screenLocks)
             {
                 screenLock.Show();
                 if (screenLock is MainScreenLock) (screenLock as MainScreenLock).MainScreen.Navigate(new Pages.Login(mainWindow, (screenLock as MainScreenLock)));
