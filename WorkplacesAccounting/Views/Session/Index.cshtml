@@ -150,7 +150,7 @@
                         <thead>
                             <tr>
                                 <th>Заголовок</th>
-                                <th>Программа</th>
+                                
                                 <th>Время запуска</th>
                                 <th>Время закрытия</th>
                                 @{
@@ -170,15 +170,7 @@
                                         <td>
                                             @program.Key
                                         </td>
-                                        <td>
-                                            @{
-                                                if (@program.Key.Replace("—", "-").Split('-').Length > 1)
-                                                {
-                                                    @program.Key.Replace("—", "-").Split('-').Last().Trim()
-                                                }
-
-                                            }
-                                        </td>
+                                        
                                         <td>@program.First().StartTime</td>
                                         <td> @program.Last().Time</td>
                                         <td>
@@ -202,7 +194,7 @@
                         <tfoot>
                             <tr>
                                 <th>Заголовок</th>
-                                <th>Программа</th>
+                                
                                 <th>Время запуска</th>
                                 <th>Время закрытия</th>
                                 @{

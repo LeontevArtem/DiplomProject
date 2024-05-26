@@ -57,7 +57,18 @@
                                                 <i class="far fa-clock bg-primary"></i>
 
                                                 <div class="timeline-item">
-                                                    <span class="time"><i class="far fa-clock"></i> @DateTime.Parse(session.StartTime).ToShortTimeString() - @DateTime.Parse(session.EndTime).ToShortTimeString()</span>
+                                                    @{
+                                                        DateTime res;
+                                                        if (DateTime.TryParse(session.StartTime, out res) && DateTime.TryParse(session.EndTime, out res))
+                                                        {
+                                                            <span class="time"><i class="far fa-clock"></i> @DateTime.Parse(session.StartTime).ToShortTimeString() - @DateTime.Parse(session.EndTime).ToShortTimeString()</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="time"><i class="far fa-clock"></i> @DateTime.Parse(session.StartTime).ToShortTimeString() - сейчас</span>
+                                                        }
+                                                    }
+                                                    
 
                                                     <h3 class="timeline-header"><a href="#">Сессия @session.ID</a> </h3>
 
