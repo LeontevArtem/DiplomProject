@@ -58,6 +58,11 @@ namespace WorkplacesAccounting.Controllers
             MsSQL.Query($"DELETE FROM [dbo].[Auditory] WHERE ID = '{id}'", Data.ConnectionString);
             return RedirectToAction("Auditories", "Auditory");
         }
+        [HttpGet]
+        public IActionResult Info(string id)
+        {
+            return View(Data.AuditoryList.Find(x=>x.Id.ToString()==id));
+        }
 
     }
 }
