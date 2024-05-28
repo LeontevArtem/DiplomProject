@@ -16,7 +16,7 @@ builder.Configuration.AddJsonFile("DataBase.json");
 
 builder.Services.AddSession();
 var app = builder.Build();
-
+Data.WebApplication = app;
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

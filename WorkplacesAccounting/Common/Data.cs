@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Microsoft.AspNetCore.Components;
+using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -19,10 +21,13 @@ namespace WorkplacesAccounting.Common
         public static List<Computer> ComputersList;
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
         public static User CurrentUser;
+        public static WebApplication WebApplication;
 
+        public static ConcurrentBag<Session> Sessions = new ConcurrentBag<Session>();
 
         public static void StartDataMonitoringThread()
         {
+            Thread currentThread = Thread.CurrentThread;
             DataMonitoring = new Thread(() =>
             {
                 while (true)
@@ -40,6 +45,7 @@ namespace WorkplacesAccounting.Common
                 }
             });
             //DataMonitoring.Start();
+            Sessions.ToList();
         }
 
 
@@ -47,7 +53,7 @@ namespace WorkplacesAccounting.Common
 
 
 
-        public static  void LoadData()
+        public static void LoadData()
         {
             UsersList = new List<User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
