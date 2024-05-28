@@ -7,13 +7,21 @@ namespace WorkplacesAccounting.Controllers
     {
         public IActionResult Index()
         {
-            Data.LoadData();
-            return View(Data.UsersList);
+            List<Classes.User> model = new List<Classes.User>();
+            Data.Action(() =>
+            {
+                model = Data.UsersList;
+            });
+            return View(model);
         }
         public IActionResult UserInfo(string id)
         {
-            Data.LoadData();
-            return View(Data.UsersList.ToList().Find(x=>x.id.ToString()==id));
+            Classes.User model = new Classes.User();
+            Data.Action(() =>
+            {
+                model = Data.UsersList.ToList().Find(x => x.id.ToString() == id);
+            });
+            return View(model);
         }
     }
 }

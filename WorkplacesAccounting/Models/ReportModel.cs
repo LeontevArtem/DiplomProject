@@ -1,4 +1,6 @@
-﻿namespace WorkplacesAccounting.Models
+﻿using WorkplacesAccounting.Classes;
+
+namespace WorkplacesAccounting.Models
 {
     public class ReportModel
     {
@@ -8,6 +10,7 @@
     }
     public class ReportRow
     {
+        public Auditory Auditory { get; set; }
         public string PCNumber { get; set; }
         public string StudentName { get; set; }
         public string Observations { get; set; }

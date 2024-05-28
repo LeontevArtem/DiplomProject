@@ -35,7 +35,7 @@ namespace WorkplacesAccounting.Controllers
                     HttpContext.Session.SetString("UserId", user.id);
                     HttpContext.Session.SetString("UserName", user.firstname);
                     HttpContext.Session.SetString("UserGroup", user.cohort);
-                    Data.StartDataMonitoringThread();
+                    //Data.StartDataMonitoringThread();
                     Data.CurrentUser = user;
                     return RedirectToAction("Index", "Home"); 
                 }

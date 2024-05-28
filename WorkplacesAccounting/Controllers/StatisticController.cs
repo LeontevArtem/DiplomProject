@@ -11,43 +11,42 @@ namespace WorkplacesAccounting.Controllers
     {
         public IActionResult Index()
         {
-            Data.LoadData();
             StatisticModel model = new StatisticModel();
-            model.AmountOfUsers = Data.UsersList.Count;
-            model.UsersOnline = Data.SessionsList.Where(x=>x.EndTime=="").ToList().Count;
+            Data.Action(() =>{
+                model.AmountOfUsers = Data.UsersList.Count;
+                model.UsersOnline = Data.SessionsList.Where(x => x.EndTime == "").ToList().Count;
 
-            foreach (Session session in Data.SessionsList.Where(x => x.EndTime != "").ToList())
-            {
-                DateTime StartTime = DateTime.Parse(session.StartTime);
-                DateTime EndTime = DateTime.Parse(session.EndTime);
-                TimeSpan timeSpan = EndTime.Subtract(StartTime);
-                double Hours = timeSpan.TotalHours;
-                model.AverageSessionTimespan += Hours;
-            }
-            model.AverageSessionTimespan /= Data.SessionsList.Where(x => x.EndTime != "").ToList().Count;
-            model.AverageSessionTimespan = Math.Round(model.AverageSessionTimespan,2);
-            List<ProcessWindow> programs = new List<ProcessWindow>();
-            try
-            {
-                foreach (LogData ProgrammInfo in Data.LogList.Where(x => x.Tag == "Processes"))
+                foreach (Session session in Data.SessionsList.Where(x => x.EndTime != "").ToList())
                 {
-                    try
+                    DateTime StartTime = DateTime.Parse(session.StartTime);
+                    DateTime EndTime = DateTime.Parse(session.EndTime);
+                    TimeSpan timeSpan = EndTime.Subtract(StartTime);
+                    double Hours = timeSpan.TotalHours;
+                    model.AverageSessionTimespan += Hours;
+                }
+                model.AverageSessionTimespan /= Data.SessionsList.Where(x => x.EndTime != "").ToList().Count;
+                model.AverageSessionTimespan = Math.Round(model.AverageSessionTimespan, 2);
+                List<ProcessWindow> programs = new List<ProcessWindow>();
+                try
+                {
+                    foreach (LogData ProgrammInfo in Data.LogList.Where(x => x.Tag == "Processes"))
                     {
-                        List<ProcessWindow> processWindows = JsonSerializer.Deserialize<List<ProcessWindow>>(ProgrammInfo.Data);
-                        foreach (ProcessWindow processWindow in processWindows) processWindow.Time = ProgrammInfo.Date;
-                        programs.AddRange(processWindows);
+                        try
+                        {
+                            List<ProcessWindow> processWindows = JsonSerializer.Deserialize<List<ProcessWindow>>(ProgrammInfo.Data);
+                            foreach (ProcessWindow processWindow in processWindows) processWindow.Time = ProgrammInfo.Date;
+                            programs.AddRange(processWindows);
+                        }
+                        catch { }
+
                     }
-                    catch { }
+                }
+                catch (Exception ex)
+                {
 
                 }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            
-            //var List = programs.GroupBy(x=>x.WindowTitle).OrderBy(x=>x.Key);
-            model.processWindows = programs;
+                model.processWindows = programs;
+            });
             return View(model);
         }
     }

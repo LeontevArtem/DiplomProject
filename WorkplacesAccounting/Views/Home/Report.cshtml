@@ -34,8 +34,10 @@
                     <thead>
                         <tr>
                             <th>№ ПК</th>
+                            <th>Аудитория</th>
                             <th>ФИО студента</th>
                             <th>Замечания</th>
+                            
                         </tr>
                     </thead>
                     <tbody>
@@ -43,14 +45,17 @@
                             <td></td>
                             <td>@Model.StartTime - @Model.EndTime</td>
                             <td></td>
+                            <td></td>
                         </tr>
                         @{
                             foreach (ReportRow reportRow in Model.reportRows)
                             {
                                 <tr>
                                     <td>@reportRow.PCNumber</td>
+                                    <td>@reportRow.Auditory.Name</td>
                                     <td>@reportRow.StudentName</td>
                                     <td>@reportRow.Observations</td>
+                                    
                                 </tr>
                             }
                         }
@@ -58,8 +63,10 @@
                     <tfoot>
                         <tr>
                             <th>№ ПК</th>
+                            <th>Аудитория</th>
                             <th>ФИО студента</th>
                             <th>Замечания</th>
+                            
                         </tr>
                     </tfoot>
                 </table>

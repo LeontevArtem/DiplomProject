@@ -14,6 +14,7 @@ namespace WorkplacesAccounting.Common
         public static Thread DataMonitoring;
 
         public static List<Session> SessionsList;
+        public static List<Message> MessagesList;
         public static List<User> UsersList;
         public static List<LogData> LogList;
         public static List<Auditory> AuditoryList;
@@ -21,9 +22,10 @@ namespace WorkplacesAccounting.Common
         public static List<Computer> ComputersList;
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
         public static User CurrentUser;
-        public static WebApplication WebApplication;
 
-        public static ConcurrentBag<Session> Sessions = new ConcurrentBag<Session>();
+        //public static ConcurrentBag<Session> Sessions = new ConcurrentBag<Session>();
+
+
 
         public static void StartDataMonitoringThread()
         {
@@ -35,6 +37,7 @@ namespace WorkplacesAccounting.Common
                     try
                     {
                         LoadData();
+                        Debug.WriteLine($"! {DateTime.Now}");
                     }
                     catch (Exception ex)
                     {
@@ -45,10 +48,17 @@ namespace WorkplacesAccounting.Common
                 }
             });
             //DataMonitoring.Start();
-            Sessions.ToList();
+            //Sessions.ToList();
         }
 
-
+        public static void Action(Action action)
+        {
+            if (action!=null)
+            {
+                LoadData();
+                action();
+            }
+        }
 
 
 
@@ -138,6 +148,20 @@ namespace WorkplacesAccounting.Common
                 NewObservation.Date = Convert.ToString(ObservationsQuery.Rows[i][2]);
                 NewObservation.Session = SessionsList.Find(x => x.ID == Convert.ToInt32(ObservationsQuery.Rows[i][3]));
                 if (!ObservationsList.Exists(x => x.Id == NewObservation.Id)) ObservationsList.Add(NewObservation);
+            }
+            MessagesList = new List<Message>();
+            System.Data.DataTable MessagesQuery = MsSQL.Query($"SELECT * FROM [dbo].[Message]", ConnectionString);
+            for (int i = 0; i < MessagesQuery.Rows.Count; i++)
+            {
+                Message NewMessage = new Classes.Message();
+                NewMessage.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
+                NewMessage.From = UsersList.Find(x=>x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
+                NewMessage.To = UsersList.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][2]));
+                NewMessage.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
+                NewMessage.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4])==1?true:false;
+                NewMessage.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);
+                NewMessage.Date = Convert.ToString(MessagesQuery.Rows[i][6]);
+                if (!MessagesList.Exists(x => x.ID == NewMessage.ID)) MessagesList.Add(NewMessage);
             }
         }
     }

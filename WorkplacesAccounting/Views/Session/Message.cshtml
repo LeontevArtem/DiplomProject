@@ -1,0 +1,74 @@
+﻿@model WorkplacesAccounting.Classes.Message
+<div class="card card-primary card-outline direct-chat direct-chat-primary">
+    <div class="card-header">
+        <h3 class="card-title">Сообщение пользователю</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <!-- Conversations are loaded here -->
+        <div class="direct-chat-messages">
+            @{
+                var MessageList = WorkplacesAccounting.Common.Data.MessagesList.Where(x=>x.From.id==Model.From.id&&x.To.id==Model.To.id);
+                foreach(WorkplacesAccounting.Classes.Message message in MessageList)
+                {
+                    if (message.From.id == WorkplacesAccounting.Common.Data.CurrentUser.id)
+                    {
+                        <!-- Message. Default to the left -->
+                        <div class="direct-chat-msg">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-left">@message.From.firstname</span>
+                                <span class="direct-chat-timestamp float-right">@message.Date</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="Message User Image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                (@message.Tag) @message.MessageText
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Message to the right -->
+                        <div class="direct-chat-msg right">
+                            <div class="direct-chat-infos clearfix">
+                                <span class="direct-chat-name float-right">@message.From.firstname</span>
+                                <span class="direct-chat-timestamp float-left">@message.Date</span>
+                            </div>
+                            <!-- /.direct-chat-infos -->
+                            <img class="direct-chat-img" src="https://secure.gravatar.com/avatar/e4a9fe1be2caa2d0e048ce06ca27d6fd?s=100&d=mm" alt="Message User Image">
+                            <!-- /.direct-chat-img -->
+                            <div class="direct-chat-text">
+                                (@message.Tag) @message.MessageText
+                            </div>
+                            <!-- /.direct-chat-text -->
+                        </div>
+                        <!-- /.direct-chat-msg -->
+                    }
+                    
+                }
+            }
+            
+        </div>
+        <!--/.direct-chat-messages-->
+        <!-- Contacts are loaded here -->
+        
+        <!-- /.direct-chat-pane -->
+    </div>
+    <!-- /.card-body -->
+    <div class="card-footer">
+        <form asp-action="SendMessage" asp-controller="Session" method="post">
+            <div class="input-group">
+                <input type="text"  placeholder="Type Message ..." class="form-control" asp-for="MessageText">
+                <input type="hidden" asp-for="From.id" value="@Model.From.id">
+                <input type="hidden" asp-for="To.id" value="@Model.To.id">
+                <input type="hidden" asp-for="ID" value="@Model.ID">
+                <span class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <!-- /.card-footer-->
+</div>
