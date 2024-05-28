@@ -37,6 +37,9 @@ namespace ScreenLocker
         public static List<System.Windows.Window> screenLocks = new List<System.Windows.Window>();
         public static List<User> users = new List<User>();
         public static List<Auditory> AuditoriesList = new List<Auditory>();
+        public static List<Common.Classes.Message> messages = new List<Common.Classes.Message>();
+        
+
 
         public static MainWindow mainWindow;
 
@@ -75,8 +78,12 @@ namespace ScreenLocker
             ToolStripMenuItem addObservationMenuItem = new ToolStripMenuItem("Добавить замечание");
             addObservationMenuItem.Click += delegate (object sender, EventArgs e) { new Windows.AddObservation(this).Show(); };
             addObservationMenuItem.Image = new Bitmap("addIcon.png");
+            ToolStripMenuItem Chat = new ToolStripMenuItem("Открыть чат");
+            //Chat.Click += delegate (object sender, EventArgs e) { new Windows.Chat(this).Show(); };
+            Chat.Image = new Bitmap("chat.png");
             ni.ContextMenuStrip = new ContextMenuStrip();
             ni.ContextMenuStrip.Items.Add(addObservationMenuItem);
+            ni.ContextMenuStrip.Items.Add(Chat);
             ni.Click +=
                 delegate (object sender, EventArgs args)
                 {
@@ -146,6 +153,17 @@ namespace ScreenLocker
                 NewUser.cohort = Convert.ToString(UserQuery.Rows[i][6]);
                 if (!users.Exists(x => x.id == NewUser.id)) users.Add(NewUser);
 
+            }
+            System.Data.DataTable MessagesQuery = MsSQL.Query($"SELECT * FROM [dbo].[Message]", MainWindow.ConnectionString);
+            for (int i = 0; i < MessagesQuery.Rows.Count; i++)
+            {
+                Common.Classes.Message NewMessage = new Common.Classes.Message();
+                NewMessage.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
+                NewMessage.From = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
+                NewMessage.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
+                NewMessage.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4]) == 1 ? true : false;
+                NewMessage.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);
+                if (!messages.Exists(x => x.ID == NewMessage.ID)) messages.Add(NewMessage);
             }
         }
         /// <summary>

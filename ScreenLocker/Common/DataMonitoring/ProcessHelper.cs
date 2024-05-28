@@ -29,7 +29,7 @@ namespace ScreenLocker.Common.DataMonitoring
                     //{
                     //    windows.Add(new ProcessWindow(windowTitle, allProccesses.FirstOrDefault(p => p.Id == pid)));
                     //}
-                    windows.Add(new ProcessWindow(windowTitle, allProccesses.FirstOrDefault(p => p.Id == pid)));
+                    windows.Add(new ProcessWindow(pid,windowTitle, allProccesses.FirstOrDefault(p => p.Id == pid)));
                 }
 
                 return true;

@@ -12,5 +12,6 @@ namespace ScreenLocker.Common.Classes
         public User From {  get; set; }
         public string MessageText { get; set; }
         public bool IsRead { get; set; }
+        public string Tag { get; set; }
     }
 }
