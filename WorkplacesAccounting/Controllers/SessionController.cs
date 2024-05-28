@@ -30,7 +30,7 @@ namespace WorkplacesAccounting.Controllers
                     {
                         List<ProcessWindow> processWindows = JsonSerializer.Deserialize<List<ProcessWindow>>(ProgrammInfo.Data);
                         foreach (ProcessWindow processWindow in processWindows) processWindow.Time = ProgrammInfo.Date;
-                        model.Programms.AddRange(processWindows);
+                        model.Programms.AddRange(processWindows);//
                     }
                     catch { }
 
