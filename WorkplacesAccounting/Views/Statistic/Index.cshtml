@@ -57,10 +57,10 @@
     <div class="card-body">
         @{
             var List = Model.processWindows.GroupBy(x => x.WindowTitle).OrderBy(x => x.Key);
+            int AllCount = Model.processWindows.Count();
             foreach (var Item in List.OrderByDescending(x => x.Count()).ToList().GetRange(0,10))
             {
                 int CountRep = Item.Count();
-                int AllCount = Model.processWindows.Count();
                 int Progress = CountRep * 100 / AllCount;
                 <p>@Item.Key (@Progress%)</p>
                 <div class="progress mb-3">
