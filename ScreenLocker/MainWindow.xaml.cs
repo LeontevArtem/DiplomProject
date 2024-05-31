@@ -225,6 +225,7 @@ namespace ScreenLocker
             Common.LockFunctions.Lock.SetTaskManager(true);//Отменить блокировку сочетания клавиш
             Common.LockFunctions.Lock.ShowStartMenu();// Отменить блокировку меню Win
             System.Windows.Application.Current.Shutdown();
+            Environment.Exit(0);
         }
 
         private void ReOpen_Click(object sender, RoutedEventArgs e)
