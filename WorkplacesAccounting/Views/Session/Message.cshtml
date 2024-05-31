@@ -8,13 +8,13 @@
         <!-- Conversations are loaded here -->
         <div class="direct-chat-messages">
             @{
-                var MessageList = WorkplacesAccounting.Common.Data.MessagesList.Where(x=>x.From.id==Model.From.id&&x.To.id==Model.To.id);
+                var MessageList = WorkplacesAccounting.Common.Data.MessagesList.Where(x => (x.From.id == Model.From.id && x.To.id == Model.To.id) || (x.From.id == Model.To.id && x.To.id == Model.From.id));
                 foreach(WorkplacesAccounting.Classes.Message message in MessageList)
                 {
                     if (message.From.id == WorkplacesAccounting.Common.Data.CurrentUser.id)
                     {
                         <!-- Message. Default to the left -->
-                        <div class="direct-chat-msg">
+                        <div class="direct-chat-msg right">
                             <div class="direct-chat-infos clearfix">
                                 <span class="direct-chat-name float-left">@message.From.firstname</span>
                                 <span class="direct-chat-timestamp float-right">@message.Date</span>
@@ -31,7 +31,7 @@
                     else
                     {
                         <!-- Message to the right -->
-                        <div class="direct-chat-msg right">
+                        <div class="direct-chat-msg ">
                             <div class="direct-chat-infos clearfix">
                                 <span class="direct-chat-name float-right">@message.From.firstname</span>
                                 <span class="direct-chat-timestamp float-left">@message.Date</span>

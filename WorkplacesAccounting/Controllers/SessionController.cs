@@ -72,6 +72,7 @@ namespace WorkplacesAccounting.Controllers
         [HttpPost]
         public IActionResult SendMessage(Classes.Message message)
         {
+            //Data.LoadData();
             MsSQL.Query($"INSERT INTO [dbo].[Message]([FromID],[ToID],[MessageText],[Tag],[Date])VALUES('{message.From.id}','{message.To.id}','{message.MessageText}','Message','{DateTime.Now}')", Data.ConnectionString);
             return RedirectToAction("Message", new { id = message.ID});
         }
@@ -83,7 +84,7 @@ namespace WorkplacesAccounting.Controllers
         {
             string id = SessionId;
             string Userid = Data.SessionsList.ToList().Find(x => x.ID == Convert.ToInt32(SessionId)).User.id;
-            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Message]([FromID],[ToID],[MessageText],[Tag])VALUES('{Data.CurrentUser.id}','{Userid}','{ProcessId}','ProcessKill')", Data.ConnectionString);
+            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Message]([FromID],[ToID],[MessageText],[Tag],[Date])VALUES('{Data.CurrentUser.id}','{Userid}','{ProcessId}','ProcessKill','{DateTime.Now}')", Data.ConnectionString);
             return RedirectToAction("Index", new { id });
         }
     }
