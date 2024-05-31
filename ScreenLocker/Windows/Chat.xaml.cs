@@ -32,14 +32,15 @@ namespace ScreenLocker.Windows
         }
         public void LoadChat()
         {
-            
-            
-            foreach (Common.Classes.Message message in MainWindow.messages.Where(x=>x.From.id == Companion.id))
+
+            parrent.Children.Clear();
+            foreach (Common.Classes.Message message in MainWindow.messages.Where(x=>(x.From.id == Companion.id && x.To.id == MainWindow.CurrentSession.User.id) || (x.To.id == Companion.id && x.From.id == MainWindow.CurrentSession.User.id)))
             {
                 UIElements.MessageItem messageElement = new UIElements.MessageItem(message);
-                if (message.From.id == MainWindow.CurrentSession.User.id) messageElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                else messageElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                if (message.From.id == MainWindow.CurrentSession.User.id) messageElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
+                else messageElement.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 parrent.Children.Add(messageElement);
+                this.ScrollViewerContainer.ScrollToEnd();
             }
         }
 
@@ -47,6 +48,8 @@ namespace ScreenLocker.Windows
         {
             MsSQL.Query($"INSERT INTO [dbo].[Message]([FromID],[ToID],[MessageText],[Tag],[Date])VALUES('{MainWindow.CurrentSession.User.id}','{Companion.id}','{MessageText.GetText()}','Message','{DateTime.Now}')", MainWindow.ConnectionString);
             MainWindow.CurrentSession.WriteLogToDataBase($"Пользователем {MainWindow.CurrentSession.User.firstname} отправлено сообщение пользователю {Companion.firstname}",Session.LogTag.Message);
+            mainWindow.LoadData();
+            LoadChat();
         }
     }
 }

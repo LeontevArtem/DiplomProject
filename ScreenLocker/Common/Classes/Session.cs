@@ -64,22 +64,34 @@ namespace ScreenLocker.Common.Classes
         }
         public void CheckMessage()
         {
-            System.Data.DataTable Message = Common.DataBase.MsSQL.Query($"SELECT MessageID,FromID, MessageText,IsRead,Tag FROM [dbo].[Message] WHERE ToID = {User.id}", MainWindow.ConnectionString);
-            for (int i=0;i< Message.Rows.Count;i++)
+            System.Data.DataTable MessagesQuery = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Message] WHERE ToID = {User.id}", MainWindow.ConnectionString);
+            for (int i=0;i< MessagesQuery.Rows.Count;i++)
             {
                 Common.Classes.Message message = new Message();
-                message.ID = Convert.ToInt32(Message.Rows[i][0]);
-                message.From = MainWindow.users.Find(x=>x.id== Convert.ToString(Message.Rows[i][1]));
-                message.MessageText = Convert.ToString(Message.Rows[i][2]);
-                message.IsRead = Convert.ToInt32(Message.Rows[i][3])==1?true:false;
-                message.Tag = Convert.ToString(Message.Rows[i][4]);
-                if (!message.IsRead)
+                message.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
+                message.From = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
+                message.To = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][2]));
+                message.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
+                message.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4]) == 1 ? true : false;
+                message.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);
+                message.Date = Convert.ToString(MessagesQuery.Rows[i][6]);
+                if (!message.IsRead&&message.To.id==MainWindow.CurrentSession.User.id)
                 {
                     if (message.Tag == "Message")
                     {
-                        MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MainWindow.messages.Add(message);
+                        
                         DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
                         WriteLogToDataBase($"Получено сообщение от пользователя {message.From.firstname}",LogTag.Message);
+                        if (MainWindow.chat!=null)
+                        {
+                            MainWindow.mainWindow.Dispatcher.Invoke(() =>
+                            {
+                                MainWindow.chat.LoadChat();
+                            });
+                            
+                        }
+                        MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     if (message.Tag == "ProcessKill")
                     {

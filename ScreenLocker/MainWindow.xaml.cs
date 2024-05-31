@@ -38,7 +38,7 @@ namespace ScreenLocker
         public static List<User> users = new List<User>();
         public static List<Auditory> AuditoriesList = new List<Auditory>();
         public static List<Common.Classes.Message> messages = new List<Common.Classes.Message>();
-        
+        public static Windows.Chat chat;
 
 
         public static MainWindow mainWindow;
@@ -79,12 +79,12 @@ namespace ScreenLocker
             addObservationMenuItem.Click += delegate (object sender, EventArgs e) { new Windows.AddObservation(this).Show(); };
             addObservationMenuItem.Image = new Bitmap("addIcon.png");
             ToolStripMenuItem Chat = new ToolStripMenuItem("Открыть чат");
-            //Chat.Click += delegate (object sender, EventArgs e) { new Windows.Chat(this).Show(); };
+            Chat.Click += delegate (object sender, EventArgs e) { new Windows.ChatList(this).Show(); };
             Chat.Image = new Bitmap("chat.png");
             ni.ContextMenuStrip = new ContextMenuStrip();
             ni.ContextMenuStrip.Items.Add(addObservationMenuItem);
             ni.ContextMenuStrip.Items.Add(Chat);
-            ni.Click +=
+            ni.DoubleClick +=
                 delegate (object sender, EventArgs args)
                 {
                     this.Show();
@@ -160,6 +160,7 @@ namespace ScreenLocker
                 Common.Classes.Message NewMessage = new Common.Classes.Message();
                 NewMessage.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
                 NewMessage.From = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
+                NewMessage.To = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][2]));
                 NewMessage.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
                 NewMessage.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4]) == 1 ? true : false;
                 NewMessage.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);

@@ -10,7 +10,7 @@
     <Border Background="#FFF3F4F6">
         <Grid>
             <Label Content="Чат" FontSize="20" FontWeight="Bold" VerticalAlignment="Top" Margin="10,5,0,0" Height="40" VerticalContentAlignment="Center"/>
-            <ScrollViewer Margin="0,50,0,50">
+            <ScrollViewer Margin="0,50,0,50" x:Name="ScrollViewerContainer">
                 <StackPanel x:Name="parrent"/>
             </ScrollViewer>
             <uc:TextBox1 x:Name="MessageText" VerticalAlignment="Bottom" Margin="10,0,120,10" Height="30"/>
