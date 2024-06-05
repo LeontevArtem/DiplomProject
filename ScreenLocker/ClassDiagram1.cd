@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ScreenLocker.Common.Classes.Auditory">
+    <Position X="5.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Classes\Auditory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenLocker.Common.Classes.Computer">
+    <Position X="5.25" Y="5.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAAAAAIAAAAAAAAAAAAAAAAAAACEAA=</HashCode>
+      <FileName>Common\Classes\Computer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenLocker.Common.Classes.Message">
+    <Position X="3.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAggAAAAAAAEAAAAAAIAAABAAgAAAAAAAA=</HashCode>
+      <FileName>Common\Classes\Message.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenLocker.Common.Classes.Observation">
+    <Position X="11.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAAAAAAAAAAAAAAABABAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Classes\Observation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenLocker.Common.Classes.Session">
+    <Position X="8.25" Y="4.5" Width="2.75" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Enum Name="ScreenLocker.Common.Classes.Session.LogTag">
+        <TypeIdentifier>
+          <NewMemberFileName>Common\Classes\Session.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>CAADCAAAAAAAgAAAAAAAAAQAIQAgQAABAAAAACACAAA=</HashCode>
+      <FileName>Common\Classes\Session.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScreenLocker.Common.Classes.User">
+    <Position X="5.25" Y="8" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAjAAAAgAAAAAAEIAAAAAACAAAAIAgAAAgA=</HashCode>
+      <FileName>Common\Classes\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

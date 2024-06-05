@@ -92,11 +92,7 @@ namespace ScreenLocker.Common.LockFunctions
             }
             return true;//If success
         }
-        public static void SetRegistryKey(string Path,string Lalue)
-        {
-
-        }
-
+        
         public static int LowLevelKeyboardProc(int nCode, int wParam, ref KBDLLHOOKSTRUCT lParam)
         {
             bool blnEat = false;

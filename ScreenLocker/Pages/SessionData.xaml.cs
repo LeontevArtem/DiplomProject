@@ -37,7 +37,7 @@ namespace ScreenLocker.Pages
 
         private void WorkStart_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (Auditory.SelectedItem!= null)
+            if (Auditory.SelectedItem!= null && Accept.IsChecked == true)
             {
                 MainWindow.UnlockComputer();
                 MainWindow.CurrentSession.StartSession();

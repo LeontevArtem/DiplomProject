@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScreenLocker.Windows;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,19 +23,22 @@ namespace ScreenLocker.UIElements
     {
         MainWindow mainWindow;
         Common.Classes.User currentUser;
-        public ChatUserItem(MainWindow mainWindow,Common.Classes.User currentUser)
+        ChatList parrentWindow;
+        public ChatUserItem(MainWindow mainWindow,Common.Classes.User currentUser, ChatList parrentWindow)
         {
             InitializeComponent();
             this.currentUser = currentUser;
             this.mainWindow = mainWindow;
+            this.parrentWindow = parrentWindow;
             this.SenterName.Content = currentUser.firstname;
             this.UnreadCounter.Content = MainWindow.messages.Where(x=>x.To.id==MainWindow.CurrentSession.User.id&&x.From.id==currentUser.id&&!x.IsRead).Count().ToString();
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            MainWindow.chat = new Windows.Chat(mainWindow,currentUser);
+            MainWindow.chat = new Windows.Chat(mainWindow,currentUser, parrentWindow);
             MainWindow.chat.Show();
+            parrentWindow.Hide();
         }
     }
 }

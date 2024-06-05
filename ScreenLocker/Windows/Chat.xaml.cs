@@ -23,10 +23,12 @@ namespace ScreenLocker.Windows
     {
         MainWindow mainWindow;
         User Companion;
-        public Chat(MainWindow mainWindow,User Companion)
+        ChatList parrentWindow;
+        public Chat(MainWindow mainWindow,User Companion, ChatList parrentWindow)
         {
             InitializeComponent();
             this.mainWindow = mainWindow;
+            this.parrentWindow = parrentWindow;
             this.Companion = Companion;
             LoadChat();
         }
@@ -50,6 +52,12 @@ namespace ScreenLocker.Windows
             MainWindow.CurrentSession.WriteLogToDataBase($"Пользователем {MainWindow.CurrentSession.User.firstname} отправлено сообщение пользователю {Companion.firstname}",Session.LogTag.Message);
             mainWindow.LoadData();
             LoadChat();
+        }
+
+        private void Back_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            parrentWindow.Show();
+            this.Close();
         }
     }
 }

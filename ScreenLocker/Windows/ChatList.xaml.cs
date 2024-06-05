@@ -31,7 +31,7 @@ namespace ScreenLocker.Windows
             var GroupedByUser = MainWindow.messages.Where(x => x.To.id == MainWindow.CurrentSession.User.id&&x.From.id!=MainWindow.CurrentSession.User.id).GroupBy(x=>x.From);
             foreach (var User in GroupedByUser)
             {
-                parrent.Children.Add(new UIElements.ChatUserItem(mainWindow,User.Key));
+                parrent.Children.Add(new UIElements.ChatUserItem(mainWindow,User.Key,this));
             }
         }
     }

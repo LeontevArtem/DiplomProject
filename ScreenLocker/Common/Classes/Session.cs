@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualBasic.ApplicationServices;
 using Microsoft.VisualBasic.Devices;
 using System;
 using System.Collections.Generic;
@@ -92,6 +93,13 @@ namespace ScreenLocker.Common.Classes
                             
                         }
                         MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        new ToastContentBuilder()
+                        .AddArgument("action", "viewConversation")
+                        .AddArgument("conversationId", 9813)
+                        .AddText("Andrew sent you a picture")
+                        .AddText("Check this out, The Enchantments in Washington!")
+                        /*.Show()*/;
+
                     }
                     if (message.Tag == "ProcessKill")
                     {
