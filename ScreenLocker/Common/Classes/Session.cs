@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace ScreenLocker.Common.Classes
 {
@@ -35,6 +36,7 @@ namespace ScreenLocker.Common.Classes
         public void StartSession()
         {
             Computer computer = new Computer();
+            ComputerName = computer.MachineName;
             computer.SaveToDataBase();
             System.Data.DataTable Insert = Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Sessions] ([UserID], [StartTime],[Auditory],[Computer] )VALUES('{User.id}', '{DateTime.Now}','{Auditory.ID}','{computer.Id}'); SELECT SCOPE_IDENTITY();", MainWindow.ConnectionString);
             Id = Convert.ToInt32(Insert.Rows[Insert.Rows.Count - 1][0]);
@@ -49,6 +51,7 @@ namespace ScreenLocker.Common.Classes
         {
             Common.DataBase.MsSQL.Query($"INSERT INTO [dbo].[Observations]([Data],[Date],[SessionID])VALUES('{Data}','{DateTime.Now}','{Id}')", MainWindow.ConnectionString);
             WriteLogToDataBase($"Пользователем {User.firstname} добавлено замечание: {Data}", Session.LogTag.Observation);
+            SMTPMail.SendMail("Проблема с рабочим местом",$"У пользователя {User.firstname} на компьютере {ComputerName}(Аудитория: {Auditory.Name}) возникла проблема. Описание: {Data} ",Auditory.ResponsibleUser.email);
         }
 
         public void WriteLogToDataBase(string Data, LogTag Tag)
@@ -65,58 +68,63 @@ namespace ScreenLocker.Common.Classes
         }
         public void CheckMessage()
         {
-            System.Data.DataTable MessagesQuery = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Message] WHERE ToID = {User.id}", MainWindow.ConnectionString);
-            for (int i=0;i< MessagesQuery.Rows.Count;i++)
+            try
             {
-                Common.Classes.Message message = new Message();
-                message.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
-                message.From = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
-                message.To = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][2]));
-                message.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
-                message.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4]) == 1 ? true : false;
-                message.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);
-                message.Date = Convert.ToString(MessagesQuery.Rows[i][6]);
-                if (!message.IsRead&&message.To.id==MainWindow.CurrentSession.User.id)
+                System.Data.DataTable MessagesQuery = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Message] WHERE ToID = {User.id}", MainWindow.ConnectionString);
+                for (int i = 0; i < MessagesQuery.Rows.Count; i++)
                 {
-                    if (message.Tag == "Message")
+                    Common.Classes.Message message = new Message();
+                    message.ID = Convert.ToInt32(MessagesQuery.Rows[i][0]);
+                    message.From = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][1]));
+                    message.To = MainWindow.users.Find(x => x.id == Convert.ToString(MessagesQuery.Rows[i][2]));
+                    message.MessageText = Convert.ToString(MessagesQuery.Rows[i][3]);
+                    message.IsRead = Convert.ToInt32(MessagesQuery.Rows[i][4]) == 1 ? true : false;
+                    message.Tag = Convert.ToString(MessagesQuery.Rows[i][5]);
+                    message.Date = Convert.ToString(MessagesQuery.Rows[i][6]);
+                    if (!message.IsRead && message.To.id == MainWindow.CurrentSession.User.id)
                     {
-                        MainWindow.messages.Add(message);
-                        
-                        DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
-                        WriteLogToDataBase($"Получено сообщение от пользователя {message.From.firstname}",LogTag.Message);
-                        if (MainWindow.chat!=null)
+                        if (message.Tag == "Message")
                         {
-                            MainWindow.mainWindow.Dispatcher.Invoke(() =>
-                            {
-                                MainWindow.chat.LoadChat();
-                            });
-                            
-                        }
-                        MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        new ToastContentBuilder()
-                        .AddArgument("action", "viewConversation")
-                        .AddArgument("conversationId", 9813)
-                        .AddText("Andrew sent you a picture")
-                        .AddText("Check this out, The Enchantments in Washington!")
-                        /*.Show()*/;
+                            MainWindow.messages.Add(message);
 
-                    }
-                    if (message.Tag == "ProcessKill")
-                    {
-                        //MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
-                        try
-                        {
-                            Process process = Process.GetProcessById(Convert.ToInt32(message.MessageText));
-                            process.Kill();
-                            WriteLogToDataBase("", LogTag.ProcessKill);
+                            DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
+                            WriteLogToDataBase($"Получено сообщение от пользователя {message.From.firstname}", LogTag.Message);
+                            if (MainWindow.chat != null)
+                            {
+                                MainWindow.mainWindow.Dispatcher.Invoke(() =>
+                                {
+                                    MainWindow.chat.LoadChat();
+                                });
+
+                            }
+                            ToastButton btnRead = new ToastButton();
+
+                            new ToastContentBuilder()
+                            .AddArgument("action", "viewConversation")
+                            .AddArgument("conversationId", 9813)
+                            .AddText($"{message.From.firstname} отправил(ла) вам сообщение")
+                            .AddText(message.MessageText).Show();
+                            MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        catch { }
-                        
+                        if (message.Tag == "ProcessKill")
+                        {
+                            //MessageBox.Show($"{message.MessageText}", $"Сообщение от {message.From.firstname}", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            DataBase.MsSQL.Query($"UPDATE [dbo].[Message] SET [IsRead] = {1} WHERE MessageID = {message.ID}", MainWindow.ConnectionString);
+                            try
+                            {
+                                Process process = Process.GetProcessById(Convert.ToInt32(message.MessageText));
+                                process.Kill();
+                                WriteLogToDataBase("", LogTag.ProcessKill);
+                            }
+                            catch { }
+
+                        }
                     }
+
                 }
-                
             }
+            catch { }
+            
 
 
         }

@@ -1,6 +1,9 @@
-﻿using System.Configuration;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System.Configuration;
 using System.Data;
 using System.Windows;
+using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Collections;
 
 namespace ScreenLocker
 {
@@ -9,6 +12,7 @@ namespace ScreenLocker
     /// </summary>
     public partial class App : System.Windows.Application
     {
+        
     }
 
 }

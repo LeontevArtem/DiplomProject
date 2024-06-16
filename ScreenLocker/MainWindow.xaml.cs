@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualBasic.Logging;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using Microsoft.VisualBasic.Logging;
 using ScreenLocker.Common.Classes;
 using ScreenLocker.Common.DataBase;
 using ScreenLocker.Common.DataMonitoring;
@@ -18,6 +19,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Windows.ApplicationModel.Activation;
+using Windows.Foundation.Collections;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -58,10 +61,12 @@ namespace ScreenLocker
             {
                 //Lock.SetAutorunValue(true); // - Ля какая опасная штука
                 LockComputer();
+                this.Hide();
             }
-            else System.Windows.MessageBox.Show("Не удалось подключиться к базе данных");
+            else { System.Windows.MessageBox.Show("Не удалось подключиться к базе данных"); Runing = false; }
 
         }
+        
         protected override void OnStateChanged(EventArgs e)
         {
             if (WindowState == WindowState.Minimized)
@@ -131,14 +136,7 @@ namespace ScreenLocker
 
         public void LoadData()
         {
-            System.Data.DataTable Auditories = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Auditory]", MainWindow.ConnectionString);
-            for (int i=0;i< Auditories.Rows.Count;i++)
-            {
-                Auditory auditory = new Auditory();
-                auditory.ID = Convert.ToInt32(Auditories.Rows[i][0]);
-                auditory.Name = Convert.ToString(Auditories.Rows[i][1]);
-                AuditoriesList.Add(auditory);
-            }
+            
             users = new List<User>();
             System.Data.DataTable UserQuery = MsSQL.Query($"SELECT * FROM [dbo].[Users]", ConnectionString);
             for (int i = 0; i < UserQuery.Rows.Count; i++)
@@ -153,6 +151,15 @@ namespace ScreenLocker
                 NewUser.cohort = Convert.ToString(UserQuery.Rows[i][6]);
                 if (!users.Exists(x => x.id == NewUser.id)) users.Add(NewUser);
 
+            }
+            System.Data.DataTable Auditories = Common.DataBase.MsSQL.Query($"SELECT * FROM [dbo].[Auditory]", MainWindow.ConnectionString);
+            for (int i = 0; i < Auditories.Rows.Count; i++)
+            {
+                Auditory auditory = new Auditory();
+                auditory.ID = Convert.ToInt32(Auditories.Rows[i][0]);
+                auditory.Name = Convert.ToString(Auditories.Rows[i][1]);
+                auditory.ResponsibleUser = users.Find(x=>x.id == Convert.ToString(Auditories.Rows[i][2]));
+                AuditoriesList.Add(auditory);
             }
             System.Data.DataTable MessagesQuery = MsSQL.Query($"SELECT * FROM [dbo].[Message]", MainWindow.ConnectionString);
             for (int i = 0; i < MessagesQuery.Rows.Count; i++)
