@@ -21,11 +21,8 @@ namespace WorkplacesAccounting.Common
         public static List<Observation> ObservationsList;
         public static List<Computer> ComputersList;
         public static string ConnectionString = "server = DESKTOP-OGA8BNV; Trusted_Connection = No; DataBase = Diplom; User = sa; PWD = sa";
+        //public static string ConnectionString = "server = student.permaviat.ru; Trusted_Connection = No; DataBase = base1_student; User = Student; PWD = Asdfg123#";
         public static User CurrentUser;
-
-        //public static ConcurrentBag<Session> Sessions = new ConcurrentBag<Session>();
-
-
 
         public static void StartDataMonitoringThread()
         {
@@ -55,13 +52,15 @@ namespace WorkplacesAccounting.Common
         {
             if (action!=null)
             {
-                LoadData();
+                try
+                {
+                    LoadData();
+                }
+                catch { }
+                
                 action();
             }
         }
-
-
-
 
         public static void LoadData()
         {

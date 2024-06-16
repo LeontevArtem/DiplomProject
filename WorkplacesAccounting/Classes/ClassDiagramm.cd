@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="WorkplacesAccounting.Classes.Auditory">
+    <Position X="4" Y="8.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAQAAAAAAAAAAAAABQgEAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Classes\Auditory.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ResponsibleUser" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.Computer">
+    <Position X="8.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAQAAAAAAAAAAAAAAQAAAAAAAAAAAAACEAA=</HashCode>
+      <FileName>Classes\Computer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.LogData">
+    <Position X="8.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAgAQAAAAAAAAAAAAAAABABAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\LogData.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Session" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.Message">
+    <Position X="1.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAAggAAAAAAAEAAAAAAIAAABAAgAAAAAAAA=</HashCode>
+      <FileName>Classes\Message.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="From" />
+      <Property Name="To" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.Observation">
+    <Position X="4" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAQAAAAAAAAAAAAAAABABAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Observations.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Session" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.ProcessWindow">
+    <Position X="11.5" Y="2" Width="1.5" />
+    <Members>
+      <Method Name="ProcessWindow" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAACAAQA=</HashCode>
+      <FileName>Classes\ProcessWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.Session">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAACAgAAAAAAAAAAAIQAgABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Classes\Session.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Auditory" />
+      <Property Name="Computer" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="WorkplacesAccounting.Classes.User">
+    <Position X="4" Y="4.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAjAAAAgEAAAAAEAAAAAAACAAAAIAgAAAgA=</HashCode>
+      <FileName>Classes\User.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Common.Data">
+    <Position X="11.5" Y="4" Width="1.5" />
+    <Members>
+      <Method Name="StartDataMonitoringThread" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AIAAAAAAAIAQAAAAAQAAAAAAAAAAAIACAiAAEBAAAAU=</HashCode>
+      <FileName>Common\Data.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Common.Moodle">
+    <Position X="13.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Moodle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Common.MsSQL">
+    <Position X="13.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\MsSQL.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WorkplacesAccounting.Common.ScreenTranslator">
+    <Position X="13.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAQAAAAAAAAIAAAAAAAAQAAAAAAAAAAAIA=</HashCode>
+      <FileName>Common\ScreenTranslator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

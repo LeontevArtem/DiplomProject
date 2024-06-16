@@ -1,7 +1,17 @@
 ﻿@model WorkplacesAccounting.Classes.Auditory
 <div class="card card-primary">
     <div class="card-header">
-        <h3 class="card-title">Редактирование аудитории</h3>
+        @{
+            if (Model != null)
+            {
+                <h3 class="card-title">Редактирование аудитории</h3>
+            }
+            else
+            {
+                <h3 class="card-title">Добавление аудитории</h3>
+            }
+        }
+        
     </div>
     @{
         string Action = "";
@@ -35,10 +45,6 @@
             <div class="form-group">
                 <label for="exampleInputEmail1">Название аудитории</label>
                 <input type="text" class="form-control"  placeholder="Аудитория А-000" asp-for="Name">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1">Сокращенное обозначение</label>
-                <input type="text" class="form-control"  placeholder="А-000">
             </div>
             <div class="form-group">
                 <label>Ответственный преподователь</label>

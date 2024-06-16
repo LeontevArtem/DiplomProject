@@ -1,8 +1,9 @@
 ﻿@model WorkplacesAccounting.Classes.User
 <div class="container-fluid">
     <div class="row">
+        <h3>Информация по пользователю: @Model.firstname @Model.lastname</h3>
         <div class="col-md-3">
-
+            
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
@@ -15,8 +16,13 @@
                     <h3 class="profile-username text-center">@Model.firstname</h3>
 
                     <p class="text-muted text-center">@Model.cohort</p>
-
-                    <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    @{
+                        if(WorkplacesAccounting.Common.Data.CurrentUser.id == Model.id)
+                        {
+                            <a href="/Authorization/Index" class="btn btn-primary btn-block"><b>Выйти</b></a>
+                        }
+                    }
+                    
                 </div>
                 <!-- /.card-body -->
             </div>

@@ -57,10 +57,12 @@ namespace WorkplacesAccounting.Controllers
         [HttpPost]
         public IActionResult Add(Classes.Auditory auditory)
         {
-            System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Auditory]([Name],[CurentResponsibleTeacher]) VALUES ('{auditory.Name}','{Data.UsersList.Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}')", Data.ConnectionString);
+            if (!Data.AuditoryList.Exists(x=>x.Name==auditory.Name))
+            {
+                System.Data.DataTable Insert = MsSQL.Query($"INSERT INTO [dbo].[Auditory]([Name],[CurentResponsibleTeacher]) VALUES ('{auditory.Name}','{Data.UsersList.Find(x => x.id == auditory.ResponsibleUserId.ToString()).id}')", Data.ConnectionString);
+            }
             return RedirectToAction("Auditories", "Auditory");
         }
-        [HttpPost]
         public IActionResult Delete(string id)
         {
             MsSQL.Query($"DELETE FROM [dbo].[Auditory] WHERE ID = '{id}'", Data.ConnectionString);
